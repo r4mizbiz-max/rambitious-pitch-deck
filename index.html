@@ -7,6 +7,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 <style>
   :root{
     --bg:#ffffff;
@@ -391,6 +393,45 @@
   .rem .msg .sent{font-size:8.5px;color:#16a34a;font-weight:700;margin-top:2px}
   .rem .msg .sent.sched{color:#d97706}
 
+  /* Real interactive map */
+  .map-real{flex:1;border-radius:8px;overflow:hidden;min-height:280px;background:#e7eef0;position:relative;z-index:1}
+  .leaflet-popup-content-wrapper{border-radius:6px;font-family:'Inter',sans-serif}
+  .leaflet-popup-content{margin:8px 12px;font-size:11px;line-height:1.4}
+  .leaflet-popup-content b{font-size:12px;color:#0a0a0a}
+  .leaflet-container .leaflet-control-attribution{font-size:9px !important;background:rgba(255,255,255,.85) !important;padding:1px 4px !important}
+  .pin{cursor:pointer}
+  .pin span{display:inline-block;font-size:9px;font-weight:700;padding:3px 7px;border-radius:4px;color:#fff;white-space:nowrap;border:1px solid rgba(0,0,0,.18);box-shadow:0 2px 4px rgba(0,0,0,.18);transition:transform .12s}
+  .pin:hover span{transform:scale(1.12)}
+  .pin.on span{background:#22c55e}
+  .pin.off span{background:#ef4444}
+
+  /* Scrollable ad feed */
+  .feed{flex:1;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;gap:10px;padding-right:2px;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:#cbd5e1 transparent;overscroll-behavior:contain}
+  .feed::-webkit-scrollbar{width:4px}
+  .feed::-webkit-scrollbar-track{background:transparent}
+  .feed::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:2px}
+  .ad-tile{background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden;flex-shrink:0}
+  .ad-vid{width:100%;aspect-ratio:1/1;object-fit:cover;background:#000;display:block}
+
+  /* Engage copy carousel */
+  .copy-window{flex:1;position:relative;min-height:140px;overflow:hidden;margin-top:4px}
+  .copy-slide{position:absolute;inset:0;display:none;flex-direction:column;gap:6px}
+  .copy-slide.on{display:flex}
+  .copy-nav{display:flex;align-items:center;justify-content:space-between;margin-top:8px;gap:6px}
+  .cbtn{width:26px;height:26px;border-radius:50%;border:1px solid var(--line);background:#fff;cursor:pointer;font-size:14px;color:var(--ink-2);font-family:inherit;line-height:1;display:grid;place-items:center;transition:background .15s,color .15s;font-weight:700}
+  .cbtn:hover{background:#0a0a0a;color:#fff;border-color:#0a0a0a}
+  .engage .ed i{cursor:pointer;transition:background .15s,width .15s}
+
+  /* Clickable interactions */
+  .quiz .q .opt{cursor:pointer;font-family:inherit;transition:background .15s,border-color .15s,color .15s}
+  .quiz .q .opt:hover:not(.on){background:var(--soft);border-color:var(--line-2)}
+  .cal .dates b:not(.dim){cursor:pointer;transition:background .15s,color .15s}
+  .cal .dates b:not(.dim):hover:not(.sel){background:#dbeafe;color:#1e40af}
+  .cal .slots b{cursor:pointer;transition:background .15s,color .15s,border-color .15s}
+  .cal .slots b:hover:not(.on){background:#dbeafe;color:#1e40af;border-color:#93c5fd}
+  .qcta,.confirm{cursor:pointer;transition:filter .15s}
+  .qcta:hover,.confirm:hover{filter:brightness(1.08)}
+
   /* No-show flow */
   .nsflow{position:relative;min-height:460px;display:flex;align-items:center;justify-content:center;margin-top:18px}
   .email-card{
@@ -587,67 +628,91 @@
             <div class="notch"></div>
             <div class="phone-screen">
 
-              <!-- 1 — Target -->
+              <!-- 1 — Target (REAL map) -->
               <div class="screen on" data-step="1">
                 <span class="screen-pill">Step 1</span>
                 <h4 class="screen-title">Target Your Service Area</h4>
-                <div class="map">
-                  <span class="zip green" style="top:14%;left:48%">33647</span>
-                  <span class="zip green" style="top:22%;left:28%">33625</span>
-                  <span class="zip green" style="top:28%;left:60%">33617</span>
-                  <span class="zip green" style="top:34%;left:42%">33618</span>
-                  <span class="zip green" style="top:40%;left:68%">33511</span>
-                  <span class="zip green" style="top:46%;left:24%">33758</span>
-                  <span class="zip green" style="top:50%;left:50%">33604</span>
-                  <span class="zip green" style="top:56%;left:34%">33615</span>
-                  <span class="zip green" style="top:60%;left:62%">33607</span>
-                  <span class="zip red" style="top:66%;left:44%">33606</span>
-                  <span class="zip green" style="top:72%;left:64%">33610</span>
-                  <span class="zip red" style="top:78%;left:32%">33629</span>
-                  <span class="zip red" style="top:84%;left:54%">33534</span>
-                  <div class="legend">
-                    <span><i class="green"></i>$90k+ income</span>
-                    <span><i class="red"></i>Low income / out of area</span>
-                  </div>
-                </div>
+                <div id="leafmap" class="map-real"></div>
               </div>
 
-              <!-- 2 — Attract -->
+              <!-- 2 — Attract (scrollable feed of real videos) -->
               <div class="screen" data-step="2">
                 <span class="screen-pill">Step 2</span>
                 <h4 class="screen-title">Scroll-Stopping Ads</h4>
-                <div class="ad">
-                  <div class="ad-head">
-                    <div class="avatar">B</div>
-                    <div>
-                      <div class="name">Your Brand</div>
-                      <div class="sub">Sponsored</div>
+                <div class="feed">
+                  <div class="ad-tile">
+                    <div class="ad-head">
+                      <div class="avatar">B</div>
+                      <div>
+                        <div class="name">Your Brand</div>
+                        <div class="sub">Sponsored</div>
+                      </div>
                     </div>
+                    <div class="ad-body">Add $15k to your home value with one weekend bath upgrade.</div>
+                    <video class="ad-vid" src="videos/add-15k.mp4" playsinline preload="metadata" controls></video>
+                    <div class="ad-meta"><span>2.8K likes</span><span>187 comments</span></div>
                   </div>
-                  <div class="ad-body">Transform your bathroom into a modern oasis</div>
-                  <div class="ad-image">
-                    <img src="images/bath-creative-1.png" alt="">
-                    <div class="pbtn"><span>▶</span></div>
-                    <div class="badge">OUTDATED</div>
+                  <div class="ad-tile">
+                    <div class="ad-head">
+                      <div class="avatar">B</div>
+                      <div>
+                        <div class="name">Your Brand</div>
+                        <div class="sub">Sponsored</div>
+                      </div>
+                    </div>
+                    <div class="ad-body">If you're 55 or older, this is the safest bath upgrade you can make.</div>
+                    <video class="ad-vid" src="videos/55-or-older.mp4" playsinline preload="metadata" controls></video>
+                    <div class="ad-meta"><span>3.4K likes</span><span>241 comments</span></div>
                   </div>
-                  <div class="ad-meta"><span>2.8K likes</span><span>187 comments</span></div>
+                  <div class="ad-tile">
+                    <div class="ad-head">
+                      <div class="avatar">B</div>
+                      <div>
+                        <div class="name">Your Brand</div>
+                        <div class="sub">Sponsored</div>
+                      </div>
+                    </div>
+                    <div class="ad-body">What if you could replace your cabinets without ripping them out?</div>
+                    <video class="ad-vid" src="videos/what-if-you-could-cabinets.mp4" playsinline preload="metadata" controls></video>
+                    <div class="ad-meta"><span>5.1K likes</span><span>389 comments</span></div>
+                  </div>
                 </div>
               </div>
 
-              <!-- 3 — Engage -->
+              <!-- 3 — Engage (carousel) -->
               <div class="screen" data-step="3">
                 <span class="screen-pill">Step 3</span>
                 <h4 class="screen-title">Engage</h4>
-                <div class="engage">
+                <div class="engage" id="engageWrap">
                   <div class="et">Intelligent Ad Copy</div>
                   <div class="es">Psychology-driven messaging that converts</div>
-                  <span class="ep">Copy 1 of 3</span>
-                  <div class="eb">Most contractors run your bathroom remodel like a cheap roadside motel. Mess everywhere. No standards. Zero accountability. We run ours like a hospital — every detail precise, every step a proven process.</div>
-                  <div class="ed"><i class="on"></i><i></i><i></i></div>
+                  <div class="copy-window">
+                    <div class="copy-slide on" data-copy="1">
+                      <span class="ep">Copy 1 of 3</span>
+                      <div class="eb">Most contractors run your bathroom remodel like a cheap roadside motel. Mess everywhere. No standards. Zero accountability. We run ours like a hospital — every detail precise, every step a proven process.</div>
+                    </div>
+                    <div class="copy-slide" data-copy="2">
+                      <span class="ep">Copy 2 of 3</span>
+                      <div class="eb">You don't need another quote. You need a contractor who shows up on time, finishes on time, and bills you what they quoted. We're the boring choice. The boring choice always wins.</div>
+                    </div>
+                    <div class="copy-slide" data-copy="3">
+                      <span class="ep">Copy 3 of 3</span>
+                      <div class="eb">Here's the truth nobody tells you about bath remodels: 80% of jobs blow past budget because of "surprises". We pre-inspect. We pre-quote. The number we give you on day one is the number you pay on day done.</div>
+                    </div>
+                  </div>
+                  <div class="copy-nav">
+                    <button class="cbtn" onclick="copyMove(-1)">‹</button>
+                    <div class="ed">
+                      <i class="on" data-d="1"></i>
+                      <i data-d="2"></i>
+                      <i data-d="3"></i>
+                    </div>
+                    <button class="cbtn" onclick="copyMove(1)">›</button>
+                  </div>
                 </div>
               </div>
 
-              <!-- 4 — Qualify -->
+              <!-- 4 — Qualify (clickable) -->
               <div class="screen" data-step="4">
                 <span class="screen-pill">Step 4</span>
                 <h4 class="screen-title">Qualifying Questions</h4>
@@ -657,25 +722,25 @@
                   <div class="q">
                     <div class="t">How will you be paying?</div>
                     <div class="opts">
-                      <span class="opt on">Cash</span>
-                      <span class="opt">Financing</span>
-                      <span class="opt">Insurance</span>
+                      <button class="opt on">Cash</button>
+                      <button class="opt">Financing</button>
+                      <button class="opt">Insurance</button>
                     </div>
                   </div>
                   <div class="q"><div class="t">Scope of project?</div><div class="ans">✓ Full Bathroom Remodel</div></div>
                   <div class="q">
                     <div class="t">When do you need this done?</div>
                     <div class="opts">
-                      <span class="opt on">ASAP</span>
-                      <span class="opt">1–3 Mo</span>
-                      <span class="opt">6+ Mo</span>
+                      <button class="opt on">ASAP</button>
+                      <button class="opt">1–3 Mo</button>
+                      <button class="opt">6+ Mo</button>
                     </div>
                   </div>
                   <div class="qcta">Continue to Book</div>
                 </div>
               </div>
 
-              <!-- 5 — Book -->
+              <!-- 5 — Book (clickable) -->
               <div class="screen" data-step="5">
                 <span class="screen-pill">Step 5</span>
                 <h4 class="screen-title">Self-Booking Calendar</h4>
@@ -729,156 +794,7 @@
     </div>
   </section>
 
-  <!-- 4 — STEP 1 + VIDEO RAIL -->
-  <section class="slide">
-    <div class="inner stack-lg">
-      <div class="step-hero">
-        <div class="step-num lg">01</div>
-        <div class="stack-sm">
-          <div class="meta">Step 01 · Top of funnel</div>
-          <h2 class="h-step">Winning ads we already run today.</h2>
-        </div>
-      </div>
-
-      <p class="lede" style="max-width:80ch">
-        We don't start from zero. We bring a library of <b style="color:var(--ink)">generic, unbranded creative</b> already validated in adjacent markets — and run them in your service area, targeted at the affluent zip codes that match your average ticket. Your brand doesn't show up until <b style="color:var(--ink)">after</b> we qualify.
-      </p>
-
-      <div class="grid-3">
-        <div class="card">
-          <div class="label">Targeting</div>
-          <h3 class="h-card">Affluent geo, look-alike audiences</h3>
-          <p class="body">Top-quintile household income, homeowners 45+, refined against your service map. Excludes renters and MFH zips.</p>
-        </div>
-        <div class="card">
-          <div class="label">Creative</div>
-          <h3 class="h-card">Unbranded = no fatigue, no comp-steal</h3>
-          <p class="body">Generic angles let us test 8–12 creatives in week one without burning your name. Winners scale, losers die fast.</p>
-        </div>
-        <div class="card">
-          <div class="label">Velocity</div>
-          <h3 class="h-card">Lead lands → setter dials in &lt;5 min</h3>
-          <p class="body">Leads route into our CRM, not yours. Speed-to-lead is the largest known driver of seat rate.</p>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- 4b — VIDEO RAIL ONLY -->
-  <section class="slide">
-    <div class="inner stack-lg">
-      <div class="step-hero">
-        <div class="step-num">01</div>
-        <div class="stack-sm">
-          <div class="meta">Step 01 · Live video creative</div>
-          <h2 class="h-step">A sample of what's running today.</h2>
-        </div>
-      </div>
-      <p class="lede">Three of our current top performers — bath and cabinets. Tap any tile to play.</p>
-
-      <div class="creative-rail" style="max-width:860px;margin:0 auto;width:100%">
-        <div class="tile video">
-          <video src="videos/add-15k.mp4" preload="metadata" playsinline controls></video>
-          <div class="tag">Bath · "Add 15k"</div>
-          <div class="play"><svg viewBox="0 0 24 24"><polygon points="6,4 22,12 6,20"/></svg></div>
-        </div>
-        <div class="tile video">
-          <video src="videos/55-or-older.mp4" preload="metadata" playsinline controls></video>
-          <div class="tag">Bath · "55 or older"</div>
-          <div class="play"><svg viewBox="0 0 24 24"><polygon points="6,4 22,12 6,20"/></svg></div>
-        </div>
-        <div class="tile video">
-          <video src="videos/what-if-you-could-cabinets.mp4" preload="metadata" playsinline controls></video>
-          <div class="tag">Cabinets · "What if you could"</div>
-          <div class="play"><svg viewBox="0 0 24 24"><polygon points="6,4 22,12 6,20"/></svg></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 5 — STATICS -->
-  <section class="slide">
-    <div class="inner stack-lg">
-      <div class="step-hero">
-        <div class="step-num">01</div>
-        <div class="stack-sm">
-          <div class="meta">Step 01 · Static creative pool</div>
-          <h2 class="h-step">Still images we cycle alongside the videos.</h2>
-        </div>
-      </div>
-      <p class="lede">We rotate static and video creatives weekly. Statics are cheap to iterate, sharpen our messaging, and consistently beat branded ads on cost-per-lead in this vertical.</p>
-
-      <div class="creative-rail" style="grid-template-columns:repeat(4,1fr)">
-        <div class="tile" style="aspect-ratio:1/1"><img src="images/cabinet-creative-1.png" alt="Cabinet refacing ad creative"><div class="tag">Cabinets</div></div>
-        <div class="tile" style="aspect-ratio:4/5"><img src="images/bath-creative-1.png" alt="Bath ad creative"><div class="tag">Bath</div></div>
-        <div class="tile" style="aspect-ratio:1/1"><img src="images/bath-creative-2.png" alt="Bath ad creative"><div class="tag">Bath</div></div>
-        <div class="tile" style="aspect-ratio:4/5"><img src="images/cabinet-creative-2.png" alt="Cabinet ad creative"><div class="tag">Cabinets</div></div>
-        <div class="tile" style="aspect-ratio:1/1"><img src="images/bath-creative-3.png" alt="Bath ad creative"><div class="tag">Bath</div></div>
-        <div class="tile" style="aspect-ratio:1/1"><img src="images/bath-creative-4.png" alt="Bath ad creative"><div class="tag">Bath</div></div>
-        <div class="tile" style="aspect-ratio:1/1"><img src="images/bath-collage.jpg" alt="Bath collage"><div class="tag">Collage</div></div>
-        <div class="tile" style="aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;background:var(--ink);color:#fff">
-          <div style="text-align:center;padding:18px">
-            <div style="font-size:38px;font-weight:800;letter-spacing:-.02em">12+</div>
-            <div style="font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#bfbfbf;margin-top:4px">In rotation</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 6 — STEP 2 -->
-  <section class="slide">
-    <div class="inner stack-lg">
-      <div class="step-hero">
-        <div class="step-num lg">02</div>
-        <div class="stack-sm">
-          <div class="meta">Step 02 · The funnel ramp</div>
-          <h2 class="h-step">Low friction first. Then we tighten the screws.</h2>
-        </div>
-      </div>
-
-      <p class="lede">Funnels start <b style="color:var(--ink)">wide and easy</b> so we can validate creative fast. As soon as we have data, we raise the friction stage-by-stage until every lead is pre-qualified before our team even dials.</p>
-
-      <div class="funnel">
-        <div class="stage">
-          <div class="label">Phase 1</div>
-          <h4>Low friction</h4>
-          <p>Single-step opt-in (age range + zip). Maximizes volume so we can grade creative within 72 hours of launch.</p>
-        </div>
-        <div class="stage">
-          <div class="label">Phase 2</div>
-          <h4>Mid friction</h4>
-          <p>3–4 step quiz: homeowner status, project type, timeline, budget band. Drops tire-kickers without crushing volume.</p>
-        </div>
-        <div class="stage">
-          <div class="label">Phase 3</div>
-          <h4>High friction</h4>
-          <p>Full landing page with hero, social proof, scope qualifier, and address. Slots go straight to our setters.</p>
-        </div>
-        <div class="stage">
-          <div class="label">Phase 4</div>
-          <h4>Pre-qualified</h4>
-          <p>By week 4–6, leads arrive pre-graded. Setters dial only A-tier appointments. Show rates climb to 70%+.</p>
-        </div>
-      </div>
-
-      <div class="grid-2" style="margin-top:8px">
-        <div class="card">
-          <div class="label">Why this works</div>
-          <h3 class="h-card">Cheap data first, then quality.</h3>
-          <p class="body">Most agencies launch a landing page on day one and burn $2k before they know which hook is winning. We earn the data with low-friction forms, then earn quality by ramping the qualifier.</p>
-        </div>
-        <div class="card">
-          <div class="label">What you'll feel</div>
-          <h3 class="h-card">Week 1–2: volume. Week 3+: quality.</h3>
-          <p class="body">Early appointments may include a few that don't perfectly qualify. By week 3, our setters are filtering hard and you're seeing almost only closes on the calendar.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 7 — STEP 3 -->
+  <!-- 4 — Conversion show -->
   <section class="slide">
     <div class="inner stack-lg">
       <div class="step-hero">
@@ -940,15 +856,15 @@
     </div>
   </section>
 
-  <!-- 8 — STEP 4 PRICING -->
+  <!-- 5 — PRICING REVEAL -->
   <section class="slide">
     <div class="inner stack-lg">
-      <div class="step-hero">
-        <div class="step-num lg">04</div>
+      <div class="section-head">
         <div class="stack-sm">
-          <div class="meta">Step 04 · You close. We protect you.</div>
-          <h2 class="h-step">You only pay for seated estimates.</h2>
+          <span class="eyebrow"><span class="dot"></span>The model</span>
+          <h2 class="h-section">You only pay for seated estimates.</h2>
         </div>
+        <div class="right body">Skin in the game on every appointment. Here's exactly how the money flows.</div>
       </div>
 
       <div class="price-block">
@@ -1241,6 +1157,7 @@
     idx = n;
     slides[idx].classList.add('active');
     update();
+    if (slides[idx].querySelector('#leafmap')) showMap();
   }
   function update(){
     cur.textContent = idx + 1;
@@ -1272,6 +1189,53 @@
   });
 
   // Interactive system widget — tab switching
+  let leafMap = null;
+  let mapInited = false;
+
+  function ensureMap(){
+    if (mapInited || typeof L === 'undefined') return;
+    const el = document.getElementById('leafmap');
+    if (!el) return;
+    mapInited = true;
+    leafMap = L.map('leafmap', {
+      zoomControl:false, attributionControl:true, dragging:true,
+      scrollWheelZoom:false, touchZoom:true, doubleClickZoom:true, boxZoom:false
+    }).setView([27.97, -82.45], 10);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+      maxZoom:19, attribution:'© OSM'
+    }).addTo(leafMap);
+    const pins = [
+      {z:'33647',y:28.084,x:-82.348,ok:true,m:'$118k'},
+      {z:'33625',y:28.073,x:-82.560,ok:true,m:'$104k'},
+      {z:'33617',y:28.030,x:-82.380,ok:true,m:'$96k'},
+      {z:'33618',y:28.072,x:-82.485,ok:true,m:'$112k'},
+      {z:'33511',y:27.913,x:-82.301,ok:true,m:'$98k'},
+      {z:'33604',y:28.014,x:-82.461,ok:true,m:'$92k'},
+      {z:'33615',y:28.011,x:-82.586,ok:true,m:'$94k'},
+      {z:'33607',y:27.969,x:-82.508,ok:true,m:'$101k'},
+      {z:'33606',y:27.937,x:-82.473,ok:false,m:'$58k'},
+      {z:'33610',y:27.991,x:-82.401,ok:true,m:'$95k'},
+      {z:'33629',y:27.918,x:-82.512,ok:false,m:'$72k'},
+      {z:'33534',y:27.846,x:-82.376,ok:false,m:'$54k'},
+      {z:'33712',y:27.738,x:-82.685,ok:false,m:'$48k'},
+      {z:'33760',y:27.901,x:-82.722,ok:true,m:'$108k'},
+    ];
+    pins.forEach(p => {
+      const icon = L.divIcon({
+        className: 'pin '+(p.ok?'on':'off'),
+        html: `<span>${p.z}</span>`,
+        iconSize: [54,20], iconAnchor: [27,10]
+      });
+      const m = L.marker([p.y, p.x], { icon }).addTo(leafMap);
+      m.bindPopup(`<b>${p.z}</b><br/>Median income: ${p.m}<br/>${p.ok?'<span style="color:#16a34a;font-weight:700">✓ Target zip</span>':'<span style="color:#dc2626;font-weight:700">✕ Excluded</span>'}`);
+    });
+  }
+
+  function showMap(){
+    ensureMap();
+    if (leafMap) setTimeout(() => leafMap.invalidateSize(), 120);
+  }
+
   (function(){
     const root = document.getElementById('iwid');
     if (!root) return;
@@ -1281,8 +1245,54 @@
       const step = t.dataset.step;
       tabs.forEach(x => x.classList.toggle('on', x === t));
       screens.forEach(s => s.classList.toggle('on', s.dataset.step === step));
+      // pause any videos when switching tabs
+      root.querySelectorAll('video').forEach(v => { try{v.pause();}catch(e){} });
+      if (step === '1') showMap();
     }));
   })();
+
+  // Engage copy carousel
+  let copyIdx = 1;
+  function copyMove(d){
+    copyIdx = ((copyIdx - 1 + d + 3) % 3) + 1;
+    document.querySelectorAll('.copy-slide').forEach(s => s.classList.toggle('on', +s.dataset.copy === copyIdx));
+    document.querySelectorAll('#engageWrap .ed i').forEach(x => x.classList.toggle('on', +x.dataset.d === copyIdx));
+  }
+  document.querySelectorAll('#engageWrap .ed i').forEach(dot => {
+    dot.addEventListener('click', () => {
+      copyIdx = +dot.dataset.d;
+      document.querySelectorAll('.copy-slide').forEach(s => s.classList.toggle('on', +s.dataset.copy === copyIdx));
+      document.querySelectorAll('#engageWrap .ed i').forEach(x => x.classList.toggle('on', x === dot));
+    });
+  });
+
+  // Qualify clicks
+  document.querySelectorAll('.quiz .opts').forEach(group => {
+    group.querySelectorAll('.opt').forEach(opt => {
+      opt.addEventListener('click', () => {
+        group.querySelectorAll('.opt').forEach(o => o.classList.remove('on'));
+        opt.classList.add('on');
+      });
+    });
+  });
+
+  // Calendar date clicks
+  document.querySelectorAll('.cal .dates b').forEach(d => {
+    if (d.classList.contains('dim')) return;
+    d.addEventListener('click', () => {
+      document.querySelectorAll('.cal .dates b').forEach(x => x.classList.remove('sel'));
+      d.classList.add('sel');
+    });
+  });
+  // Calendar slot clicks
+  document.querySelectorAll('.cal .slots b').forEach(s => {
+    s.addEventListener('click', () => {
+      document.querySelectorAll('.cal .slots b').forEach(x => x.classList.remove('on'));
+      s.classList.add('on');
+    });
+  });
+
+  // showMap is hooked into go() above
 
   // No-show flow
   function nsAskNoShow(){
