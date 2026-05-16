@@ -1,0 +1,985 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>The Appointment Generator — Rambitious Media</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#06040c;
+    --bg-2:#0c0820;
+    --ink:#f6f3ff;
+    --ink-dim:#a89fc6;
+    --purple:#7a3cff;
+    --purple-2:#a66bff;
+    --coral:#ff6a4d;
+    --coral-2:#ff9268;
+    --gold:#ffd166;
+    --grad: linear-gradient(135deg,#7a3cff 0%,#b557ff 45%,#ff6a4d 100%);
+    --grad-text: linear-gradient(120deg,#ffffff 0%,#d6c4ff 40%,#ffb8a3 100%);
+    --card:#120d28;
+    --card-2:#1a1238;
+    --line:rgba(255,255,255,.08);
+    --line-strong:rgba(255,255,255,.18);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;background:var(--bg);color:var(--ink);font-family:'DM Sans',system-ui,sans-serif;overflow:hidden;-webkit-font-smoothing:antialiased}
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:
+      radial-gradient(900px 600px at 12% 10%, rgba(122,60,255,.22), transparent 60%),
+      radial-gradient(700px 500px at 88% 90%, rgba(255,106,77,.18), transparent 65%),
+      radial-gradient(500px 400px at 50% 50%, rgba(165,107,255,.08), transparent 70%);
+  }
+  body::after{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.35;
+    background-image:radial-gradient(rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size:3px 3px;
+    mix-blend-mode:overlay;
+  }
+
+  /* Deck */
+  .deck{position:relative;height:100vh;width:100vw;overflow:hidden;z-index:1}
+  .slide{
+    position:absolute;inset:0;
+    display:flex;align-items:center;justify-content:center;
+    padding: clamp(40px, 6vh, 88px) clamp(28px, 6vw, 96px);
+    opacity:0;pointer-events:none;
+    transform:translateY(24px) scale(.985);
+    transition:opacity .55s ease, transform .65s cubic-bezier(.2,.7,.2,1);
+    overflow:auto;
+  }
+  .slide.active{opacity:1;pointer-events:auto;transform:none;z-index:2}
+  .slide.exit{opacity:0;transform:translateY(-24px) scale(.985)}
+  .slide .inner{width:min(1280px,100%);position:relative}
+
+  /* Typography */
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:10px;
+    font:600 12px/1 'DM Sans';letter-spacing:.28em;text-transform:uppercase;
+    color:var(--ink-dim);
+    padding:9px 14px;border:1px solid var(--line-strong);border-radius:999px;
+    background:rgba(255,255,255,.02);backdrop-filter:blur(6px);
+  }
+  .eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--coral);box-shadow:0 0 14px var(--coral)}
+  h1,h2,h3,.display{font-family:'Syne',sans-serif;font-weight:800;letter-spacing:-.02em;line-height:1.02}
+  .h-hero{font-size:clamp(48px,7.6vw,116px);line-height:.96;letter-spacing:-.035em}
+  .h-section{font-size:clamp(40px,5.6vw,84px);line-height:1.0;letter-spacing:-.03em}
+  .h-step{font-size:clamp(36px,4.6vw,72px);line-height:1.02;letter-spacing:-.025em}
+  .h-mid{font-size:clamp(28px,3.4vw,52px);letter-spacing:-.02em;line-height:1.05}
+  .lede{font-size:clamp(17px,1.4vw,22px);line-height:1.5;color:var(--ink-dim);max-width:62ch}
+  .body{font-size:clamp(16px,1.15vw,19px);line-height:1.55;color:#d6cfee}
+  .grad-text{background:var(--grad-text);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .grad-fill{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .num{font-family:'Syne',sans-serif;font-weight:800;letter-spacing:-.04em}
+
+  /* Layout helpers */
+  .stack-lg>*+*{margin-top:28px}
+  .stack-md>*+*{margin-top:18px}
+  .stack-sm>*+*{margin-top:10px}
+  .row{display:flex;gap:24px;flex-wrap:wrap}
+  .grid-2{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .center{text-align:center}
+  .muted{color:var(--ink-dim)}
+
+  @media (max-width:980px){
+    .grid-2{grid-template-columns:1fr;gap:28px}
+    .grid-3{grid-template-columns:1fr 1fr}
+    .grid-4{grid-template-columns:1fr 1fr}
+  }
+
+  /* Cards */
+  .card{
+    background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));
+    border:1px solid var(--line);
+    border-radius:22px;
+    padding:26px;
+    position:relative;overflow:hidden;
+    backdrop-filter: blur(8px);
+  }
+  .card .glow{position:absolute;inset:-1px;border-radius:22px;pointer-events:none;
+    background:linear-gradient(140deg,rgba(122,60,255,.35),transparent 30%,transparent 70%,rgba(255,106,77,.3));
+    -webkit-mask:linear-gradient(#000,#000) content-box,linear-gradient(#000,#000);
+    -webkit-mask-composite:xor;mask-composite:exclude;padding:1px;opacity:.5;
+  }
+  .pill{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid var(--line-strong);font-size:12px;color:var(--ink-dim);letter-spacing:.12em;text-transform:uppercase;font-weight:600}
+  .pill.gradient{background:var(--grad);color:#0a0420;border:none;font-weight:800}
+
+  /* Step number badge */
+  .step-badge{
+    display:inline-grid;place-items:center;width:84px;height:84px;border-radius:24px;
+    background:var(--grad);font-family:'Syne';font-weight:800;color:#0c061d;font-size:42px;
+    box-shadow:0 24px 60px -20px rgba(122,60,255,.6), 0 0 0 1px rgba(255,255,255,.08) inset;
+  }
+  .step-badge.sm{width:56px;height:56px;font-size:26px;border-radius:16px}
+
+  /* Buttons (visual only) */
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;padding:14px 22px;border-radius:999px;
+    background:var(--grad);color:#0a0420;font-weight:800;font-family:'DM Sans';letter-spacing:.01em;
+    border:none;text-decoration:none;font-size:15px;
+    box-shadow:0 14px 50px -18px rgba(255,106,77,.6);
+  }
+  .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line-strong)}
+
+  /* Hero */
+  .hero-mark{display:flex;align-items:center;gap:14px}
+  .hero-mark .logo{
+    width:42px;height:42px;border-radius:12px;background:var(--grad);
+    display:grid;place-items:center;color:#0a0420;font-family:'Syne';font-weight:800;font-size:22px;
+    box-shadow:0 14px 50px -20px rgba(255,106,77,.6);
+  }
+  .hero-meta{
+    display:flex;align-items:center;gap:22px;flex-wrap:wrap;color:var(--ink-dim);font-size:14px;letter-spacing:.06em;text-transform:uppercase
+  }
+  .hero-strip{
+    margin-top:36px;display:grid;grid-template-columns:repeat(4,1fr);gap:16px
+  }
+  .hero-strip .stat{padding:18px 20px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.03),transparent)}
+  .hero-strip .stat b{display:block;font-family:'Syne';font-size:34px;letter-spacing:-.02em}
+  .hero-strip .stat span{color:var(--ink-dim);font-size:13px;letter-spacing:.1em;text-transform:uppercase}
+
+  /* Section header */
+  .section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:32px;flex-wrap:wrap;margin-bottom:34px}
+  .section-head .right{max-width:520px}
+
+  /* Step layout */
+  .step-hero{display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center}
+  .step-hero .meta{display:flex;align-items:center;gap:14px;color:var(--ink-dim);letter-spacing:.18em;text-transform:uppercase;font-size:12px;font-weight:600}
+
+  /* Video grid */
+  .creative-rail{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:18px
+  }
+  .creative-rail .tile{
+    position:relative;border-radius:18px;overflow:hidden;border:1px solid var(--line);
+    background:#0a0618;
+    aspect-ratio: 9/16;
+  }
+  .creative-rail .tile video,.creative-rail .tile img{
+    width:100%;height:100%;object-fit:cover;display:block;background:#0a0618
+  }
+  .creative-rail .tile .tag{
+    position:absolute;left:12px;top:12px;background:rgba(8,4,20,.7);border:1px solid var(--line-strong);
+    padding:6px 10px;border-radius:999px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:#fff;backdrop-filter:blur(6px)
+  }
+  .creative-rail .tile .play{
+    position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+    width:64px;height:64px;border-radius:50%;background:rgba(8,4,20,.55);border:1px solid var(--line-strong);
+    display:grid;place-items:center;color:#fff;pointer-events:none;opacity:.95;transition:opacity .2s;
+    backdrop-filter:blur(8px);
+  }
+  .creative-rail .tile.video:hover .play{opacity:0}
+  .creative-rail .tile .play svg{width:22px;height:22px;margin-left:3px;fill:#fff}
+  @media (max-width:980px){.creative-rail{grid-template-columns:1fr 1fr}}
+
+  /* Funnel */
+  .funnel{display:flex;align-items:stretch;gap:14px;flex-wrap:wrap}
+  .funnel .stage{
+    flex:1;min-width:200px;padding:22px;border-radius:18px;border:1px solid var(--line);
+    background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));
+    position:relative;overflow:hidden;
+  }
+  .funnel .stage::after{
+    content:"";position:absolute;left:0;top:0;height:100%;width:4px;
+    background:var(--grad);opacity:.85;
+  }
+  .funnel .stage .label{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-dim);font-weight:600}
+  .funnel .stage h4{font-family:'Syne';font-weight:700;font-size:22px;margin:8px 0 8px}
+  .funnel .stage p{color:#c8c0e6;font-size:14.5px;line-height:1.5}
+
+  /* Comparison */
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .compare .col{padding:24px;border-radius:20px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.03),transparent)}
+  .compare .col.bad{border-color:rgba(255,106,77,.25)}
+  .compare .col.good{border-color:rgba(122,60,255,.35);background:linear-gradient(160deg,rgba(122,60,255,.12),rgba(255,106,77,.06))}
+  .compare .col h4{font-family:'Syne';font-size:22px;margin-bottom:12px}
+  .compare .col ul{list-style:none;margin-top:8px}
+  .compare .col li{padding:10px 0;display:flex;align-items:flex-start;gap:10px;color:#d3cbed;border-top:1px dashed var(--line);font-size:15px}
+  .compare .col li:first-child{border-top:none}
+  .compare .col .icn{flex:0 0 22px;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:13px;margin-top:2px}
+  .compare .col.bad .icn{background:rgba(255,106,77,.18);color:#ffb8a3}
+  .compare .col.good .icn{background:rgba(122,60,255,.22);color:#d6c4ff}
+  @media (max-width:980px){.compare{grid-template-columns:1fr}}
+
+  /* Numbers grid */
+  .numgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .numgrid .n{padding:24px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(180deg,rgba(255,255,255,.03),transparent)}
+  .numgrid .n b{display:block;font-family:'Syne';font-weight:800;font-size:46px;letter-spacing:-.03em}
+  .numgrid .n span{color:var(--ink-dim);font-size:13px;letter-spacing:.12em;text-transform:uppercase;font-weight:600}
+  .numgrid .n p{margin-top:10px;color:#bfb6dc;font-size:14px;line-height:1.5}
+  @media (max-width:980px){.numgrid{grid-template-columns:1fr 1fr}}
+
+  /* Pricing card */
+  .price-wrap{display:grid;grid-template-columns:1.3fr .9fr;gap:28px;align-items:stretch}
+  .price-card{
+    padding:34px;border-radius:24px;background:linear-gradient(160deg,#1a1138,#0c0720);border:1px solid var(--line-strong);
+    position:relative;overflow:hidden;
+  }
+  .price-card .ring{
+    position:absolute;inset:-1px;border-radius:24px;pointer-events:none;
+    background:linear-gradient(140deg,rgba(122,60,255,.6),transparent 30%,transparent 70%,rgba(255,106,77,.55));
+    -webkit-mask:linear-gradient(#000,#000) content-box,linear-gradient(#000,#000);
+    -webkit-mask-composite:xor;mask-composite:exclude;padding:1px;
+  }
+  .price-card .big{font-family:'Syne';font-weight:800;font-size:clamp(72px,9vw,128px);letter-spacing:-.04em;line-height:.95}
+  .price-card .sub{color:var(--ink-dim);letter-spacing:.2em;text-transform:uppercase;font-weight:700;font-size:13px;margin-top:8px}
+  .price-card ul{list-style:none;margin-top:22px}
+  .price-card li{padding:12px 0;border-top:1px dashed var(--line);display:flex;gap:12px;color:#d3cbed;font-size:15.5px}
+  .price-card li:first-child{border-top:none}
+  .price-card li .icn{width:22px;height:22px;border-radius:50%;background:rgba(122,60,255,.22);display:grid;place-items:center;color:#d6c4ff;font-weight:800;font-size:13px;flex:0 0 22px}
+  @media (max-width:980px){.price-wrap{grid-template-columns:1fr}}
+
+  /* Roadmap */
+  .roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .roadmap .step{padding:22px;border-radius:18px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.03),transparent);position:relative}
+  .roadmap .step .num{font-family:'Syne';font-weight:800;font-size:28px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .roadmap .step h5{font-family:'Syne';font-weight:700;font-size:18px;margin:6px 0}
+  .roadmap .step p{color:#bfb6dc;font-size:14px;line-height:1.5}
+  @media (max-width:980px){.roadmap{grid-template-columns:1fr 1fr}}
+
+  /* Nav */
+  .nav{position:fixed;right:22px;top:50%;transform:translateY(-50%);z-index:50;display:flex;flex-direction:column;gap:10px}
+  .nav button{
+    width:10px;height:10px;border-radius:50%;border:none;background:rgba(255,255,255,.18);cursor:pointer;padding:0;transition:transform .2s,background .2s
+  }
+  .nav button.on{background:var(--coral);transform:scale(1.45);box-shadow:0 0 12px var(--coral)}
+  .nav button:hover{background:#fff}
+
+  .chrome{
+    position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:50;
+    display:flex;align-items:center;gap:12px;padding:8px 12px;border-radius:999px;
+    background:rgba(12,8,32,.72);border:1px solid var(--line-strong);backdrop-filter:blur(10px);
+    color:var(--ink);font-size:13px;font-weight:600;letter-spacing:.04em;
+  }
+  .chrome .arrow{
+    display:grid;place-items:center;width:34px;height:34px;border-radius:50%;
+    background:rgba(255,255,255,.06);border:1px solid var(--line);cursor:pointer;color:#fff
+  }
+  .chrome .arrow:hover{background:rgba(255,255,255,.12)}
+  .chrome .counter{padding:0 8px;color:var(--ink-dim)}
+  .chrome .counter b{color:#fff;font-weight:800}
+  .topbar{
+    position:fixed;top:18px;left:22px;z-index:50;display:flex;align-items:center;gap:12px;
+    padding:8px 14px;border-radius:999px;background:rgba(12,8,32,.6);border:1px solid var(--line-strong);
+    backdrop-filter:blur(10px);
+  }
+  .topbar .logo{width:24px;height:24px;border-radius:7px;background:var(--grad);display:grid;place-items:center;color:#0a0420;font-family:'Syne';font-weight:800;font-size:13px}
+  .topbar .name{font-family:'Syne';font-weight:700;font-size:14px;letter-spacing:.02em}
+
+  /* Marquee in hero */
+  .marquee{
+    margin-top:36px;overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:14px 0;
+    mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
+  }
+  .marquee-track{display:flex;gap:36px;animation:slide 28s linear infinite;white-space:nowrap;color:var(--ink-dim);font-family:'Syne';font-weight:700;letter-spacing:.04em;font-size:18px;text-transform:uppercase}
+  .marquee-track span{display:inline-flex;align-items:center;gap:36px}
+  .marquee-track i{font-style:normal;color:var(--coral)}
+  @keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  /* Big quote */
+  .pull{
+    font-family:'Syne';font-weight:700;font-size:clamp(28px,3.4vw,46px);line-height:1.1;letter-spacing:-.02em;
+    background:var(--grad-text);-webkit-background-clip:text;background-clip:text;color:transparent;max-width:24ch;
+  }
+
+  /* Mini accent line */
+  .accent{height:3px;width:64px;border-radius:3px;background:var(--grad)}
+
+  /* Step process strip */
+  .process{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .process .p{padding:18px;border-radius:16px;border:1px solid var(--line);background:rgba(255,255,255,.02)}
+  .process .p .lab{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-dim);font-weight:700}
+  .process .p .ti{font-family:'Syne';font-weight:700;font-size:18px;margin:6px 0 6px}
+  .process .p .de{color:#bfb6dc;font-size:13.5px;line-height:1.5}
+
+  /* check list */
+  .checklist{list-style:none;margin-top:14px}
+  .checklist li{position:relative;padding:10px 0 10px 34px;color:#d3cbed;font-size:16px;border-top:1px dashed var(--line)}
+  .checklist li:first-child{border-top:none}
+  .checklist li::before{
+    content:"";position:absolute;left:0;top:14px;width:22px;height:22px;border-radius:50%;
+    background:radial-gradient(circle at 30% 30%,#ffb8a3,#7a3cff 80%);box-shadow:0 0 12px rgba(122,60,255,.5)
+  }
+  .checklist li::after{
+    content:"";position:absolute;left:7px;top:20px;width:8px;height:5px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg)
+  }
+
+  /* Hero scribble */
+  .scribble{
+    position:absolute;right:-40px;top:-80px;width:520px;height:520px;border-radius:50%;
+    background:radial-gradient(circle at 30% 30%, rgba(255,106,77,.45), transparent 60%);
+    filter:blur(20px);z-index:-1
+  }
+  .scribble.b{right:auto;left:-80px;top:auto;bottom:-120px;background:radial-gradient(circle at 70% 70%, rgba(122,60,255,.5), transparent 65%)}
+
+  /* Help text overlay (keys) */
+  .keys{
+    position:fixed;left:22px;bottom:18px;z-index:50;color:var(--ink-dim);font-size:12px;letter-spacing:.08em;text-transform:uppercase;
+    display:flex;gap:8px;align-items:center
+  }
+  .keys kbd{font-family:'DM Sans';font-weight:700;font-size:11px;padding:4px 8px;border-radius:6px;background:rgba(255,255,255,.06);border:1px solid var(--line);color:#fff}
+
+  /* Print-friendly: just stack */
+  @media print{
+    html,body{overflow:auto;height:auto}
+    .slide{position:relative;opacity:1;transform:none;page-break-after:always;min-height:100vh}
+    .nav,.chrome,.keys,.topbar{display:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">R</div>
+  <div class="name">Rambitious Media</div>
+</div>
+
+<nav class="nav" id="nav"></nav>
+
+<div class="keys" aria-hidden="true">
+  <kbd>←</kbd><kbd>→</kbd> navigate · <kbd>F</kbd> fullscreen
+</div>
+
+<div class="chrome" id="chrome">
+  <button class="arrow" id="prev" aria-label="Previous">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+  <div class="counter"><b id="cur">1</b> / <span id="tot">11</span></div>
+  <button class="arrow" id="next" aria-label="Next">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+  </button>
+</div>
+
+<main class="deck" id="deck">
+
+  <!-- 1 — HERO -->
+  <section class="slide active">
+    <div class="scribble"></div>
+    <div class="scribble b"></div>
+    <div class="inner stack-lg">
+      <div class="hero-mark">
+        <div class="logo">R</div>
+        <div>
+          <div class="pill">Rambitious Media · Meta Ads</div>
+        </div>
+      </div>
+
+      <h1 class="h-hero">
+        The <span class="grad-fill">Appointment</span><br/>
+        Generator System.
+      </h1>
+
+      <p class="lede">
+        Pay-per-seat lead generation for premium home-services brands.
+        Ad spend covered. In-house booking team. You only pay for
+        <b style="color:#fff">seated, qualified appointments</b> — or your next one is free.
+      </p>
+
+      <div class="row" style="margin-top:10px">
+        <span class="pill gradient">Ad Spend Covered</span>
+        <span class="pill">$197 / Seated Appointment</span>
+        <span class="pill">No-Show Credit Guarantee</span>
+      </div>
+
+      <div class="hero-strip">
+        <div class="stat"><b>$0</b><span>Up-front ad spend</span></div>
+        <div class="stat"><b>4 Steps</b><span>End-to-end system</span></div>
+        <div class="stat"><b>In-House</b><span>Setters book your calendar</span></div>
+        <div class="stat"><b>Pay-Per-Seat</b><span>You only pay on attendance</span></div>
+      </div>
+
+      <div class="marquee" style="margin-top:30px">
+        <div class="marquee-track">
+          <span>Generic + unbranded creative <i>·</i> Affluent-area targeting <i>·</i> Low→High friction funnels <i>·</i> In-house ISA team <i>·</i> Calendar-direct booking <i>·</i> Seat-based pricing <i>·</i> No-show credits <i>·</i> Refundable bookings</span>
+          <span>Generic + unbranded creative <i>·</i> Affluent-area targeting <i>·</i> Low→High friction funnels <i>·</i> In-house ISA team <i>·</i> Calendar-direct booking <i>·</i> Seat-based pricing <i>·</i> No-show credits <i>·</i> Refundable bookings</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 — THE PROBLEM / WHY THIS DIFFERS -->
+  <section class="slide">
+    <div class="inner stack-lg">
+      <div class="section-head">
+        <div class="stack-sm">
+          <span class="eyebrow"><span class="dot"></span>The problem with most lead vendors</span>
+          <h2 class="h-section">Lead-gen is broken.<br/><span class="grad-fill">Seated appointments aren't.</span></h2>
+        </div>
+        <div class="right body">
+          Most "lead vendors" sell form-fills and call it a day. You buy the same lead 3 other guys bought. Your reps chase ghosts. Your CAC explodes. We rebuilt this from the appointment backwards.
+        </div>
+      </div>
+
+      <div class="compare">
+        <div class="col bad">
+          <span class="pill">Old way</span>
+          <h4 style="margin-top:10px">Traditional lead-gen</h4>
+          <ul>
+            <li><span class="icn">✕</span> You pay <b>$30–$80 / lead</b> and chase them yourself</li>
+            <li><span class="icn">✕</span> Same lead sold to <b>3–6 competitors</b></li>
+            <li><span class="icn">✕</span> No-show rate <b>40–60%</b>, no recourse</li>
+            <li><span class="icn">✕</span> Branded creative — ad fatigue in 14 days</li>
+            <li><span class="icn">✕</span> You eat the ad spend and the wasted hours</li>
+          </ul>
+        </div>
+        <div class="col good">
+          <span class="pill gradient">Rambitious way</span>
+          <h4 style="margin-top:10px">Pay-per-seated-appointment</h4>
+          <ul>
+            <li><span class="icn">✓</span> We cover <b>100% of the ad spend</b></li>
+            <li><span class="icn">✓</span> Leads are <b>exclusive</b> — never resold</li>
+            <li><span class="icn">✓</span> Our in-house team <b>books them onto your calendar</b></li>
+            <li><span class="icn">✓</span> You only pay <b>$197 per seated estimate</b></li>
+            <li><span class="icn">✓</span> No-show? <b>The next one's free.</b> Cancels? Credit back.</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="pull" style="margin-top:14px">Skin in the game on every appointment we send.</p>
+    </div>
+  </section>
+
+  <!-- 3 — SYSTEM OVERVIEW -->
+  <section class="slide">
+    <div class="inner stack-lg">
+      <div class="section-head">
+        <div class="stack-sm">
+          <span class="eyebrow"><span class="dot"></span>The system, end to end</span>
+          <h2 class="h-section">Four steps. <span class="grad-fill">One outcome.</span></h2>
+        </div>
+        <div class="right body">
+          Every campaign we run flows through the same four stages. Designed for speed-of-feedback, qualified volume, and seat-based attribution.
+        </div>
+      </div>
+
+      <div class="roadmap">
+        <div class="step">
+          <div class="num">01</div>
+          <h5>Winning Ads</h5>
+          <p>Generic, unbranded Meta creative tested at scale in your high-affluence geo.</p>
+        </div>
+        <div class="step">
+          <div class="num">02</div>
+          <h5>Ramp Funnel</h5>
+          <p>Low-friction → high-friction. We earn data fast, then dial in quality.</p>
+        </div>
+        <div class="step">
+          <div class="num">03</div>
+          <h5>Conversion Show</h5>
+          <p>Our in-house ISAs phone, qualify, and seat them on your real calendar slots.</p>
+        </div>
+        <div class="step">
+          <div class="num">04</div>
+          <h5>You Close</h5>
+          <p>$197 per seat. No-shows refund as credit. Next appointment free.</p>
+        </div>
+      </div>
+
+      <div class="grid-3" style="margin-top:6px">
+        <div class="card">
+          <span class="pill">Built for</span>
+          <h3 class="h-mid" style="margin-top:10px">Premium home-services</h3>
+          <p class="body" style="margin-top:8px">Walk-in showers, full bath remodels, cabinet refacing, windows, kitchens. Ticket sizes $8k+.</p>
+        </div>
+        <div class="card">
+          <span class="pill">Operating model</span>
+          <h3 class="h-mid" style="margin-top:10px">We own the funnel</h3>
+          <p class="body" style="margin-top:8px">Creative, media buying, landing pages, CRM, dial team, calendar sync — all under one roof.</p>
+        </div>
+        <div class="card">
+          <span class="pill">Your job</span>
+          <h3 class="h-mid" style="margin-top:10px">Show up & close</h3>
+          <p class="body" style="margin-top:8px">Give us your bookable windows and your installer service area. We fill the calendar.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 — STEP 1: WINNING ADS + VIDEO RAIL -->
+  <section class="slide">
+    <div class="inner stack-lg">
+      <div class="step-hero">
+        <div class="step-badge">01</div>
+        <div class="stack-sm">
+          <div class="meta"><span class="accent" style="width:48px"></span>Step 01 · Top of funnel</div>
+          <h2 class="h-step"><span class="grad-fill">Winning ads</span> that we already run today.</h2>
+        </div>
+      </div>
+
+      <p class="lede" style="max-width:80ch">
+        We don't start from zero. We bring a library of <b>generic, unbranded creative</b> already validated in adjacent markets — and run them in your service area, targeted at the affluent zip codes that match your average ticket. Your brand doesn't show up until <b>after</b> we qualify.
+      </p>
+
+      <div class="grid-3">
+        <div class="card">
+          <span class="pill">Targeting</span>
+          <h3 class="h-mid" style="margin-top:10px">Affluent geo, look-alike audiences</h3>
+          <p class="body" style="margin-top:8px">Top-quintile household income, homeowners 45+, refined against your service map. Excludes renters & MFH zips.</p>
+        </div>
+        <div class="card">
+          <span class="pill">Creative</span>
+          <h3 class="h-mid" style="margin-top:10px">Unbranded = no fatigue, no comp-steal</h3>
+          <p class="body" style="margin-top:8px">Generic angles let us test 8–12 creatives in week one without burning your name. Winners scale, losers die fast.</p>
+        </div>
+        <div class="card">
+          <span class="pill">Velocity</span>
+          <h3 class="h-mid" style="margin-top:10px">Lead lands → setter dials in &lt; 5 min</h3>
+          <p class="body" style="margin-top:8px">Leads route into <b>our</b> CRM, not yours. Speed-to-lead is the largest known driver of seat rate.</p>
+        </div>
+      </div>
+
+      <div class="stack-sm" style="margin-top:8px">
+        <div class="row" style="align-items:center">
+          <span class="pill gradient">Live creative</span>
+          <span class="muted body">A sample of generic creatives currently running. Tap any tile to play.</span>
+        </div>
+      </div>
+
+      <div class="creative-rail">
+        <div class="tile video">
+          <video src="videos/add-15k.mp4" preload="metadata" playsinline controls poster=""></video>
+          <div class="tag">Bath · "Add 15k"</div>
+          <div class="play"><svg viewBox="0 0 24 24"><polygon points="6,4 22,12 6,20"/></svg></div>
+        </div>
+        <div class="tile video">
+          <video src="videos/55-or-older.mp4" preload="metadata" playsinline controls></video>
+          <div class="tag">Bath · "55 or older"</div>
+          <div class="play"><svg viewBox="0 0 24 24"><polygon points="6,4 22,12 6,20"/></svg></div>
+        </div>
+        <div class="tile video">
+          <video src="videos/what-if-you-could-cabinets.mp4" preload="metadata" playsinline controls></video>
+          <div class="tag">Cabinets · "What if you could"</div>
+          <div class="play"><svg viewBox="0 0 24 24"><polygon points="6,4 22,12 6,20"/></svg></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 — STATIC CREATIVE EXAMPLES -->
+  <section class="slide">
+    <div class="inner stack-lg">
+      <div class="step-hero">
+        <div class="step-badge sm">01</div>
+        <div class="stack-sm">
+          <div class="meta"><span class="accent" style="width:36px"></span>Step 01 · Static creative pool</div>
+          <h2 class="h-step">Still images we cycle <span class="grad-fill">alongside the videos</span>.</h2>
+        </div>
+      </div>
+      <p class="lede">We rotate static + video creatives weekly. Statics are cheap to iterate, sharpen our messaging, and consistently beat branded ads on cost-per-lead in this vertical.</p>
+
+      <div class="creative-rail" style="grid-template-columns:repeat(4,1fr)">
+        <div class="tile" style="aspect-ratio:1/1"><img src="images/cabinet-creative-1.png" alt="Cabinet refacing ad creative"><div class="tag">Cabinets</div></div>
+        <div class="tile" style="aspect-ratio:4/5"><img src="images/bath-creative-1.png" alt="Bath ad creative"><div class="tag">Bath</div></div>
+        <div class="tile" style="aspect-ratio:1/1"><img src="images/bath-creative-2.png" alt="Bath ad creative"><div class="tag">Bath</div></div>
+        <div class="tile" style="aspect-ratio:4/5"><img src="images/cabinet-creative-2.png" alt="Cabinet ad creative"><div class="tag">Cabinets</div></div>
+        <div class="tile" style="aspect-ratio:1/1"><img src="images/bath-creative-3.png" alt="Bath ad creative"><div class="tag">Bath</div></div>
+        <div class="tile" style="aspect-ratio:1/1"><img src="images/bath-creative-4.png" alt="Bath ad creative"><div class="tag">Bath</div></div>
+        <div class="tile" style="aspect-ratio:1/1"><img src="images/bath-collage.jpg" alt="Bath collage"><div class="tag">Collage</div></div>
+        <div class="tile" style="aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,#1a1138,#0c0720)">
+          <div style="text-align:center;padding:18px">
+            <div class="num" style="font-size:42px" class="grad-fill"><span class="grad-fill">12+</span></div>
+            <div class="muted" style="font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin-top:4px">Creatives in rotation</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 — STEP 2: FUNNEL RAMP -->
+  <section class="slide">
+    <div class="inner stack-lg">
+      <div class="step-hero">
+        <div class="step-badge">02</div>
+        <div class="stack-sm">
+          <div class="meta"><span class="accent" style="width:48px"></span>Step 02 · The funnel ramp</div>
+          <h2 class="h-step">Low friction first. <span class="grad-fill">Then we tighten the screws.</span></h2>
+        </div>
+      </div>
+
+      <p class="lede">Funnels start <b>wide and easy</b> so we can validate creative fast. As soon as we have data, we raise the friction stage-by-stage until every lead is pre-qualified before our team even dials.</p>
+
+      <div class="funnel">
+        <div class="stage">
+          <div class="label">Phase 1</div>
+          <h4>Low friction</h4>
+          <p>Single-step opt-in (age range + zip). Maximizes volume so we can grade creative within 72 hours of launch.</p>
+        </div>
+        <div class="stage">
+          <div class="label">Phase 2</div>
+          <h4>Mid friction</h4>
+          <p>3–4 step quiz: homeowner status, project type, timeline, budget band. Drops tire-kickers without crushing volume.</p>
+        </div>
+        <div class="stage">
+          <div class="label">Phase 3</div>
+          <h4>High friction</h4>
+          <p>Full landing page with hero, social proof, scope qualifier, and address. Slots go straight to our setters.</p>
+        </div>
+        <div class="stage">
+          <div class="label">Phase 4</div>
+          <h4>Pre-qualified</h4>
+          <p>By week 4–6, leads arrive pre-graded. Setter is dialing only A-tier appointments. Show rates climb to 70%+.</p>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top:14px">
+        <div class="card">
+          <span class="pill">Why this works</span>
+          <h3 class="h-mid" style="margin-top:10px">Cheap data, then quality.</h3>
+          <p class="body" style="margin-top:8px">Most agencies launch a landing page on day one and burn $2k before they know which hook is winning. We earn the data with low-friction forms, then earn quality by ramping the qualifier.</p>
+        </div>
+        <div class="card">
+          <span class="pill">What you'll feel</span>
+          <h3 class="h-mid" style="margin-top:10px">Week 1–2: volume. Week 3+: quality.</h3>
+          <p class="body" style="margin-top:8px">Early appointments may include a few that don't perfectly qualify. By week 3, our setters are filtering hard and you're seeing <b>almost only closes</b> on the calendar.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 — STEP 3: CONVERSION SHOW -->
+  <section class="slide">
+    <div class="inner stack-lg">
+      <div class="step-hero">
+        <div class="step-badge">03</div>
+        <div class="stack-sm">
+          <div class="meta"><span class="accent" style="width:48px"></span>Step 03 · The conversion show</div>
+          <h2 class="h-step">The lead never touches you<br/><span class="grad-fill">until they're sitting on your calendar.</span></h2>
+        </div>
+      </div>
+
+      <div class="grid-2" style="align-items:flex-start">
+        <div class="stack-md">
+          <p class="lede">
+            Leads route into our CRM. <b>Our</b> in-house setting team calls them — not yours. They confirm homeowner status, scope, budget, and the slot.
+          </p>
+          <p class="body">
+            You tell us your bookable windows — e.g. "Tuesdays at 10am, 1pm, 6pm." Our setters only book into those exact slots, and the appointment lands on your real calendar with a confirmation text + 24h + 1h reminders.
+          </p>
+
+          <ul class="checklist">
+            <li>Speed-to-lead under 5 minutes during business hours</li>
+            <li>Triple-confirmation cadence (SMS + email + day-of reminder)</li>
+            <li>We disqualify renters, "just browsing", and out-of-area before booking</li>
+            <li>You only see a name on the calendar when they're <b>seated and qualified</b></li>
+          </ul>
+        </div>
+
+        <div class="stack-md">
+          <div class="process">
+            <div class="p">
+              <div class="lab">00:00</div>
+              <div class="ti">Lead opt-in</div>
+              <div class="de">Form fires into our CRM with full enrichment.</div>
+            </div>
+            <div class="p">
+              <div class="lab">&lt; 5 min</div>
+              <div class="ti">Setter dials</div>
+              <div class="de">Pitch the consult, qualify scope, confirm address.</div>
+            </div>
+            <div class="p">
+              <div class="lab">+10 min</div>
+              <div class="ti">Calendar lock</div>
+              <div class="de">Booked into your specific bookable windows only.</div>
+            </div>
+            <div class="p">
+              <div class="lab">+24h</div>
+              <div class="ti">Show-up cadence</div>
+              <div class="de">Auto SMS + email reminders + same-day call.</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <span class="pill gradient">Your time</span>
+            <h3 class="h-mid" style="margin-top:10px">~0 hours/week</h3>
+            <p class="body" style="margin-top:8px">No more reps chasing leads. Your team's job is to show up and close.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 — STEP 4: CLOSE + GUARANTEE -->
+  <section class="slide">
+    <div class="inner stack-lg">
+      <div class="step-hero">
+        <div class="step-badge">04</div>
+        <div class="stack-sm">
+          <div class="meta"><span class="accent" style="width:48px"></span>Step 04 · You close. We protect you.</div>
+          <h2 class="h-step">You only pay for <span class="grad-fill">seated estimates.</span></h2>
+        </div>
+      </div>
+
+      <div class="price-wrap">
+        <div class="price-card">
+          <span class="ring"></span>
+          <span class="pill gradient">Investment</span>
+          <div style="display:flex;align-items:flex-end;gap:16px;margin-top:14px">
+            <div class="big">$197</div>
+            <div class="sub" style="margin-bottom:18px">per seated<br/>appointment</div>
+          </div>
+          <p class="body" style="margin-top:8px">No retainers. No setup fees. No ad-spend pass-through. Single flat price per appointment that <b>actually sits down with your rep</b>.</p>
+
+          <ul>
+            <li><span class="icn">✓</span> <span><b>We cover 100% of the ad spend.</b> Your card never gets charged by Meta.</span></li>
+            <li><span class="icn">✓</span> <span>Setters, CRM, landing pages, creative — all included.</span></li>
+            <li><span class="icn">✓</span> <span><b>No-show?</b> The next appointment is on us.</span></li>
+            <li><span class="icn">✓</span> <span><b>They cancel last-minute?</b> Credit back — refundable to your next seat.</span></li>
+            <li><span class="icn">✓</span> <span>Bookable windows defined by you. We respect them, period.</span></li>
+          </ul>
+        </div>
+
+        <div class="stack-md">
+          <div class="card">
+            <span class="pill">Skin in the game</span>
+            <h3 class="h-mid" style="margin-top:10px">Why pay-per-seat works</h3>
+            <p class="body" style="margin-top:8px">Every dollar of ad spend is <b>our risk</b>, not yours. We're not incentivized to send you junk — junk doesn't seat, and unseated leads cost us money.</p>
+          </div>
+          <div class="card">
+            <span class="pill">Cancellation policy</span>
+            <h3 class="h-mid" style="margin-top:10px">No long contracts</h3>
+            <p class="body" style="margin-top:8px">Month-to-month. If we ever stop seating appointments, you stop paying. Simple.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 — UNIT ECONOMICS -->
+  <section class="slide">
+    <div class="inner stack-lg">
+      <div class="section-head">
+        <div class="stack-sm">
+          <span class="eyebrow"><span class="dot"></span>Unit economics</span>
+          <h2 class="h-section">The math, <span class="grad-fill">conservatively.</span></h2>
+        </div>
+        <div class="right body">
+          Assumes a $12k average ticket and a 1-in-3 close rate. Your numbers may be better; this is the floor.
+        </div>
+      </div>
+
+      <div class="numgrid">
+        <div class="n">
+          <span>Cost per seat</span>
+          <b class="grad-fill">$197</b>
+          <p>Flat. All ad spend included.</p>
+        </div>
+        <div class="n">
+          <span>Close rate (assumed)</span>
+          <b class="grad-fill">33%</b>
+          <p>Industry-conservative on qualified, seated estimates.</p>
+        </div>
+        <div class="n">
+          <span>Effective CAC</span>
+          <b class="grad-fill">$591</b>
+          <p>$197 × 3 seats per close.</p>
+        </div>
+        <div class="n">
+          <span>Avg ticket (assumed)</span>
+          <b class="grad-fill">$12k</b>
+          <p>Replace with your true average.</p>
+        </div>
+        <div class="n">
+          <span>Gross profit / job</span>
+          <b class="grad-fill">$4,800</b>
+          <p>At a 40% gross margin.</p>
+        </div>
+        <div class="n">
+          <span>Profit after CAC</span>
+          <b class="grad-fill">$4,209</b>
+          <p>$4,800 − $591 CAC.</p>
+        </div>
+        <div class="n">
+          <span>ROAS on $197</span>
+          <b class="grad-fill">20.3x</b>
+          <p>$12k revenue / $591 CAC.</p>
+        </div>
+        <div class="n">
+          <span>Break-even close rate</span>
+          <b class="grad-fill">~5%</b>
+          <p>We just need 1 in 20 to break even.</p>
+        </div>
+      </div>
+
+      <p class="pull" style="margin-top:18px">If we're sending you seats and you can close at 1 in 5, this prints money.</p>
+    </div>
+  </section>
+
+  <!-- 10 — WHY IT WORKS / DEFENSIBILITY -->
+  <section class="slide">
+    <div class="inner stack-lg">
+      <div class="section-head">
+        <div class="stack-sm">
+          <span class="eyebrow"><span class="dot"></span>Why this beats the alternatives</span>
+          <h2 class="h-section">It's not <span class="grad-fill">lead-gen.</span> It's an appointment system.</h2>
+        </div>
+        <div class="right body">Three structural advantages compound the longer we run together.</div>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <span class="pill">Edge 1</span>
+          <h3 class="h-mid" style="margin-top:10px">Generic creative library</h3>
+          <p class="body" style="margin-top:8px">We test across 20+ partners. A "winner" in one market gets ported to yours in 24 hours. No agency starting fresh can catch this iteration speed.</p>
+        </div>
+        <div class="card">
+          <span class="pill">Edge 2</span>
+          <h3 class="h-mid" style="margin-top:10px">Owned setter team</h3>
+          <p class="body" style="margin-top:8px">Setters are trained on your scope, your service area, your bookable windows. They <b>sound like your team</b> — without being on your payroll.</p>
+        </div>
+        <div class="card">
+          <span class="pill">Edge 3</span>
+          <h3 class="h-mid" style="margin-top:10px">Pay-per-seat economics</h3>
+          <p class="body" style="margin-top:8px">Aligned incentives. We can't survive if we send junk. We only get paid when your rep sits across from a real homeowner.</p>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top:14px">
+        <div class="card">
+          <span class="pill">Reporting</span>
+          <h3 class="h-mid" style="margin-top:10px">A live dashboard you can refresh anytime</h3>
+          <p class="body" style="margin-top:8px">Seats booked, seats seated, no-show rate, credits applied, ad spend (visible to you, not billed). Updated in real time inside Rambitious OS.</p>
+        </div>
+        <div class="card">
+          <span class="pill">Operations</span>
+          <h3 class="h-mid" style="margin-top:10px">Calendar-direct, no double-booking</h3>
+          <p class="body" style="margin-top:8px">Integrates with Google / Outlook / HCSS / ServiceTitan. Setters can only book the windows you've handed us. Zero conflicts.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 — NEXT STEPS / CTA -->
+  <section class="slide">
+    <div class="inner stack-lg">
+      <div class="section-head">
+        <div class="stack-sm">
+          <span class="eyebrow"><span class="dot"></span>What happens after this call</span>
+          <h2 class="h-section">If this is a fit, <span class="grad-fill">here's the rollout.</span></h2>
+        </div>
+        <div class="right body">From handshake to first seated appointment is typically 7–10 days.</div>
+      </div>
+
+      <div class="roadmap">
+        <div class="step">
+          <div class="num">Day 1</div>
+          <h5>Onboarding call</h5>
+          <p>You hand off service area, bookable windows, average ticket, scope filters, and your top objections.</p>
+        </div>
+        <div class="step">
+          <div class="num">Day 2–4</div>
+          <h5>Build phase</h5>
+          <p>We spin up your campaign in our ad account, point creative at your geo, build the funnel + CRM routing.</p>
+        </div>
+        <div class="step">
+          <div class="num">Day 5–6</div>
+          <h5>Launch</h5>
+          <p>Ads go live. Setters trained on your brief. First leads typically inside 24 hours of launch.</p>
+        </div>
+        <div class="step">
+          <div class="num">Day 7+</div>
+          <h5>Seats</h5>
+          <p>First seated appointments land on your calendar. Billing only triggers on attendance.</p>
+        </div>
+      </div>
+
+      <div class="price-wrap" style="margin-top:18px">
+        <div class="price-card">
+          <span class="ring"></span>
+          <h3 class="h-section" style="font-size:clamp(36px,4.4vw,68px);max-width:18ch">Let's lock the<br/><span class="grad-fill">first month.</span></h3>
+          <p class="body" style="margin-top:14px;max-width:60ch">If we can agree on bookable windows and a target volume today, you'll be seeing seated estimates on your calendar by next week. The only risk you take on is the cost of the appointments you show up to.</p>
+
+          <div class="row" style="margin-top:22px">
+            <span class="btn">Start the rollout</span>
+            <span class="btn ghost">Send me the agreement</span>
+          </div>
+        </div>
+
+        <div class="stack-md">
+          <div class="card">
+            <span class="pill">No retainer</span>
+            <h3 class="h-mid" style="margin-top:10px">No upfront. No setup fees.</h3>
+            <p class="body" style="margin-top:8px">You don't pay a dollar until the first seated estimate hits the calendar.</p>
+          </div>
+          <div class="card">
+            <span class="pill">Direct line</span>
+            <h3 class="h-mid" style="margin-top:10px">One Slack channel. One owner.</h3>
+            <p class="body" style="margin-top:8px">You'll have me directly. No account-manager tag, no ticket queue. We move at your speed.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const nav = document.getElementById('nav');
+  const cur = document.getElementById('cur');
+  const tot = document.getElementById('tot');
+  const prev = document.getElementById('prev');
+  const next = document.getElementById('next');
+  tot.textContent = slides.length;
+
+  let idx = 0;
+
+  slides.forEach((_, i) => {
+    const b = document.createElement('button');
+    b.setAttribute('aria-label', 'Go to slide ' + (i+1));
+    b.addEventListener('click', () => go(i));
+    nav.appendChild(b);
+  });
+
+  function go(n){
+    n = Math.max(0, Math.min(slides.length - 1, n));
+    if (n === idx) return;
+    // pause any playing videos when leaving slide
+    slides[idx].querySelectorAll('video').forEach(v => { try{v.pause();}catch(e){} });
+    slides[idx].classList.remove('active');
+    slides[idx].classList.add('exit');
+    setTimeout(() => slides[idx].classList.remove('exit'), 600);
+    idx = n;
+    slides[idx].classList.add('active');
+    update();
+  }
+  function update(){
+    cur.textContent = idx + 1;
+    Array.from(nav.children).forEach((b,i) => b.classList.toggle('on', i === idx));
+    window.scrollTo({top:0});
+  }
+  update();
+
+  prev.addEventListener('click', () => go(idx - 1));
+  next.addEventListener('click', () => go(idx + 1));
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); go(idx + 1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); go(idx - 1); }
+    else if (e.key === 'Home') { go(0); }
+    else if (e.key === 'End') { go(slides.length - 1); }
+    else if (e.key.toLowerCase() === 'f') {
+      if (document.fullscreenElement) document.exitFullscreen();
+      else document.documentElement.requestFullscreen();
+    }
+  });
+
+  // touch swipe
+  let tx=0,ty=0;
+  document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, {passive:true});
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - tx;
+    const dy = e.changedTouches[0].clientY - ty;
+    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy)) go(idx + (dx < 0 ? 1 : -1));
+  });
+
+  // smooth video preview when a tile becomes active in viewport
+  // (no autoplay — manual control respects pitch flow)
+</script>
+</body>
+</html>
