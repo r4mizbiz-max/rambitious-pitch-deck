@@ -299,6 +299,143 @@
   /* Pull quote */
   .pull{font-size:clamp(22px,2.6vw,32px);font-weight:700;letter-spacing:-.015em;line-height:1.25;color:var(--ink);max-width:30ch}
 
+  /* Interactive system widget */
+  .iwid{display:grid;grid-template-columns:1.05fr .95fr;gap:36px;align-items:center;margin-top:6px}
+  @media (max-width:960px){.iwid{grid-template-columns:1fr}}
+
+  .tabs-col{display:flex;flex-direction:column;gap:10px}
+  .tab{
+    width:100%;text-align:left;cursor:pointer;font-family:inherit;
+    background:#fff;border:1px solid var(--line);border-radius:12px;
+    padding:14px 18px;transition:background .15s,border-color .15s;display:block;
+  }
+  .tab:hover{background:var(--soft-2)}
+  .tab.on{background:#fef5ed;border-color:#fcd8b8}
+  .tab h5{font-size:16px;font-weight:700;color:var(--ink);margin:0}
+  .tab p{font-size:13px;color:var(--ink-3);margin-top:2px;font-weight:400}
+
+  .phone-wrap{display:flex;justify-content:center}
+  .phone{
+    width:100%;max-width:270px;aspect-ratio:9/18;
+    background:#0a0a0a;border-radius:34px;padding:8px;
+    box-shadow:0 24px 60px -20px rgba(0,0,0,.25);position:relative;
+  }
+  .phone .notch{
+    position:absolute;left:50%;top:14px;transform:translateX(-50%);
+    width:72px;height:18px;border-radius:14px;background:#0a0a0a;z-index:5;
+  }
+  .phone-screen{width:100%;height:100%;background:#fff;border-radius:28px;overflow:hidden;position:relative}
+  .screen{position:absolute;inset:0;padding:34px 14px 14px;display:none;flex-direction:column;gap:10px}
+  .screen.on{display:flex}
+  .screen-pill{align-self:flex-start;background:#fef0e2;color:#9b6438;font-size:9px;font-weight:700;letter-spacing:.06em;padding:3px 8px;border-radius:5px;text-transform:uppercase}
+  .screen-title{font-size:16px;font-weight:800;letter-spacing:-.015em;color:#0a0a0a;text-align:center}
+
+  .map{position:relative;background:linear-gradient(180deg,#e7eef0,#d6dee0);border-radius:8px;flex:1;overflow:hidden;min-height:260px}
+  .map .zip{position:absolute;font-size:8.5px;font-weight:700;color:#fff;padding:3px 5px;border-radius:3px;border:1px solid rgba(0,0,0,.1);transform:translate(-50%,-50%)}
+  .map .zip.green{background:#22c55e}
+  .map .zip.red{background:#ef4444}
+  .map .legend{position:absolute;left:6px;bottom:6px;background:#fff;border-radius:5px;padding:5px 7px;font-size:8.5px;display:flex;flex-direction:column;gap:2px;box-shadow:0 2px 4px rgba(0,0,0,.08);color:#0a0a0a;font-weight:500}
+  .map .legend i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:4px;vertical-align:middle}
+  .map .legend i.green{background:#22c55e}
+  .map .legend i.red{background:#ef4444}
+
+  .ad{background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .ad-head{display:flex;align-items:center;gap:6px;padding:8px}
+  .ad-head .avatar{width:24px;height:24px;border-radius:50%;background:#0a0a0a;display:grid;place-items:center;font-weight:700;font-size:9px;color:#fff}
+  .ad-head .name{font-weight:700;font-size:10px;color:#0a0a0a;line-height:1.2}
+  .ad-head .sub{font-size:9px;color:var(--ink-4);line-height:1.2}
+  .ad-body{padding:0 8px 8px;font-size:10px;color:#0a0a0a}
+  .ad-image{position:relative;width:100%;aspect-ratio:1/1;background:#000;display:block;overflow:hidden}
+  .ad-image img{width:100%;height:100%;object-fit:cover}
+  .ad-image .pbtn{position:absolute;inset:0;display:grid;place-items:center}
+  .ad-image .pbtn span{width:38px;height:38px;border-radius:6px;background:#3b82f6;display:grid;place-items:center;color:#fff;font-size:14px}
+  .ad-image .badge{position:absolute;left:8px;bottom:8px;color:#fff;font-weight:800;font-size:10px;letter-spacing:.04em;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+  .ad-meta{display:flex;justify-content:space-between;padding:6px 8px;font-size:9px;color:var(--ink-4)}
+
+  .engage{background:#fff;border:1px solid var(--line);border-radius:8px;padding:12px;flex:1;display:flex;flex-direction:column;gap:6px;min-height:0}
+  .engage .et{font-size:13px;font-weight:700;text-align:center;color:#0a0a0a}
+  .engage .es{font-size:10px;color:var(--ink-3);text-align:center}
+  .engage .ep{align-self:flex-start;background:#dbeafe;color:#1e40af;font-size:8.5px;font-weight:700;padding:3px 7px;border-radius:3px;text-transform:uppercase;letter-spacing:.04em;margin-top:4px}
+  .engage .eb{font-size:10.5px;line-height:1.45;color:#0a0a0a;flex:1;overflow:hidden}
+  .engage .ed{display:flex;justify-content:center;gap:4px;margin-top:auto}
+  .engage .ed i{width:5px;height:5px;border-radius:50%;background:#cbd5e1}
+  .engage .ed i.on{background:#3b82f6;width:12px;border-radius:3px}
+
+  .quiz{display:flex;flex-direction:column;gap:6px;overflow:hidden;flex:1}
+  .quiz .q{background:#fff;border:1px solid var(--line);border-radius:6px;padding:7px 9px}
+  .quiz .q .t{font-size:10px;color:#0a0a0a;font-weight:600;line-height:1.3}
+  .quiz .q .ans{margin-top:3px;font-size:9.5px;color:#16a34a;font-weight:700}
+  .quiz .q .opts{display:flex;gap:5px;margin-top:5px;flex-wrap:wrap}
+  .quiz .q .opt{padding:4px 8px;border-radius:5px;border:1px solid var(--line);font-size:9.5px;background:#fff;color:var(--ink-2);font-weight:600}
+  .quiz .q .opt.on{background:#dcfce7;border-color:#22c55e;color:#15803d}
+  .quiz .qcta{margin-top:auto;background:#3b82f6;color:#fff;padding:9px;border-radius:6px;text-align:center;font-size:11px;font-weight:700}
+
+  .cal{display:flex;flex-direction:column;gap:8px;flex:1}
+  .cal .days{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center;font-size:8.5px;color:var(--ink-3);font-weight:600}
+  .cal .dates{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center;font-size:10.5px}
+  .cal .dates b{padding:4px 0;border-radius:4px;font-weight:600;color:#0a0a0a}
+  .cal .dates b.dim{color:var(--ink-4);font-weight:400}
+  .cal .dates b.avail{background:#dcfce7;color:#15803d}
+  .cal .dates b.sel{background:#3b82f6;color:#fff;font-weight:700}
+  .cal .slots{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
+  .cal .slots b{padding:6px 0;border-radius:5px;background:#fff;border:1px solid var(--line);text-align:center;font-size:10px;font-weight:600;color:#0a0a0a}
+  .cal .slots b.on{background:#3b82f6;color:#fff;border-color:#3b82f6}
+  .cal .confirm{margin-top:auto;background:#3b82f6;color:#fff;padding:10px;border-radius:6px;text-align:center;font-size:11px;font-weight:700}
+
+  .rem{display:flex;flex-direction:column;gap:8px;flex:1}
+  .rem .when{font-size:9px;color:var(--ink-3);font-weight:600;margin-bottom:3px}
+  .rem .msg{background:#f3f4f6;border-radius:8px;padding:8px;display:flex;gap:7px;align-items:flex-start}
+  .rem .msg .tag{width:22px;height:22px;border-radius:50%;background:#dbeafe;color:#1e40af;font-size:8px;font-weight:700;display:grid;place-items:center;flex:0 0 22px}
+  .rem .msg .tag.email{background:#fce7f3;color:#9d174d}
+  .rem .msg .body{font-size:9.5px;color:#0a0a0a;line-height:1.4;flex:1}
+  .rem .msg .sent{font-size:8.5px;color:#16a34a;font-weight:700;margin-top:2px}
+  .rem .msg .sent.sched{color:#d97706}
+
+  /* No-show flow */
+  .nsflow{position:relative;min-height:460px;display:flex;align-items:center;justify-content:center;margin-top:18px}
+  .email-card{
+    width:100%;max-width:540px;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;
+    box-shadow:0 22px 60px -28px rgba(0,0,0,.18);position:relative;z-index:1;
+  }
+  .email-head{padding:18px 22px;border-bottom:1px solid var(--line)}
+  .email-from{display:flex;justify-content:space-between;font-size:12px;color:var(--ink-3)}
+  .email-from b{color:var(--ink);font-weight:700}
+  .email-subject{font-size:20px;font-weight:800;letter-spacing:-.015em;margin-top:8px;color:var(--ink)}
+  .email-body{padding:22px;font-size:15px;line-height:1.55;color:var(--ink-2)}
+  .email-body p+p{margin-top:10px}
+  .email-buttons{display:flex;gap:10px;padding:0 22px 22px}
+  .email-buttons button{flex:1;padding:14px;border-radius:10px;border:none;font-weight:700;font-size:14.5px;cursor:pointer;font-family:inherit}
+  .email-buttons .yes{background:#16a34a;color:#fff}
+  .email-buttons .yes:hover{background:#15803d}
+  .email-buttons .no{background:#fff;color:#991b1b;border:1px solid #fecaca}
+  .email-buttons .no:hover{background:#fee2e2}
+
+  .ns-modal{position:absolute;inset:0;background:rgba(10,10,10,.55);display:none;align-items:center;justify-content:center;border-radius:16px;padding:30px;z-index:4}
+  .ns-modal.on{display:flex}
+  .ns-modal-box{background:#fff;border-radius:14px;padding:28px;max-width:440px;width:100%;box-shadow:0 24px 60px -10px rgba(0,0,0,.4)}
+  .ns-modal-box h3{font-size:21px;font-weight:800;letter-spacing:-.02em;color:var(--ink)}
+  .ns-modal-box p{font-size:14px;color:var(--ink-2);line-height:1.55;margin-top:8px}
+  .ns-modal-box .check{display:flex;gap:10px;align-items:flex-start;margin-top:18px;padding:14px;background:var(--soft-2);border-radius:10px;cursor:pointer}
+  .ns-modal-box .check input{margin-top:2px;flex:0 0 16px;cursor:pointer;accent-color:#0a0a0a;width:16px;height:16px}
+  .ns-modal-box .check label{font-size:14px;color:var(--ink);line-height:1.45;cursor:pointer}
+  .ns-modal-box .actions{display:flex;gap:10px;margin-top:16px}
+  .ns-modal-box .actions button{flex:1;padding:12px;border-radius:10px;border:none;font-weight:700;font-size:13.5px;cursor:pointer;font-family:inherit}
+  .ns-modal-box .cancel{background:#fff;border:1px solid var(--line);color:var(--ink)}
+  .ns-modal-box .cancel:hover{background:var(--soft)}
+  .ns-modal-box .ok{background:#0a0a0a;color:#fff}
+  .ns-modal-box .ok:disabled{background:#cbd5e1;cursor:not-allowed}
+  .ns-modal-box .ok:not(:disabled):hover{background:#222}
+
+  .ns-result{position:absolute;inset:0;background:#fff;border:1px solid var(--line);border-radius:14px;display:none;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:30px;z-index:5;box-shadow:0 22px 60px -28px rgba(0,0,0,.18)}
+  .ns-result.on{display:flex}
+  .ns-result .icn{width:62px;height:62px;border-radius:50%;background:#dcfce7;display:grid;place-items:center;color:#16a34a;font-size:30px;margin-bottom:14px;font-weight:800}
+  .ns-result.billed .icn{background:#dbeafe;color:#1e40af}
+  .ns-result h3{font-size:24px;font-weight:800;letter-spacing:-.02em;color:var(--ink)}
+  .ns-result p{font-size:15px;color:var(--ink-2);max-width:42ch;line-height:1.55;margin-top:8px}
+  .ns-result .stamp{margin-top:18px;padding:12px 18px;background:#dcfce7;border:1px solid #86efac;border-radius:10px;font-size:14px;color:#15803d;font-weight:700}
+  .ns-result.billed .stamp{background:#dbeafe;border-color:#93c5fd;color:#1e40af}
+  .ns-result .reset{margin-top:18px;color:var(--ink-3);font-size:13px;cursor:pointer;background:none;border:none;text-decoration:underline;font-family:inherit}
+
   /* Print */
   @media print{
     html,body{overflow:auto;height:auto;background:#fff}
@@ -404,57 +541,189 @@
     </div>
   </section>
 
-  <!-- 3 — SYSTEM OVERVIEW -->
+  <!-- 3 — INTERACTIVE SYSTEM OVERVIEW -->
   <section class="slide">
     <div class="inner stack-lg">
       <div class="section-head">
         <div class="stack-sm">
           <span class="eyebrow"><span class="dot"></span>The system, end to end</span>
-          <h2 class="h-section">Four steps. One outcome.</h2>
+          <h2 class="h-section">See it in motion.</h2>
         </div>
         <div class="right body">
-          Every campaign we run flows through the same four stages — designed for speed-of-feedback, qualified volume, and seat-based attribution.
+          Tap any stage on the left. Every campaign we run flows through these six — from zip-code targeting all the way to automated show-up reminders.
         </div>
       </div>
 
-      <div class="roadmap">
-        <div class="step">
-          <div class="num">01</div>
-          <h5>Winning Ads</h5>
-          <p>Generic, unbranded Meta creative tested at scale in your high-affluence geo.</p>
+      <div class="iwid" id="iwid">
+        <div class="tabs-col">
+          <button class="tab on" data-step="1">
+            <h5>Target</h5>
+            <p>Specific zip codes in your service area</p>
+          </button>
+          <button class="tab" data-step="2">
+            <h5>Attract</h5>
+            <p>Scroll-stopping ads built for your trade</p>
+          </button>
+          <button class="tab" data-step="3">
+            <h5>Engage</h5>
+            <p>Intelligent copy that stands out</p>
+          </button>
+          <button class="tab" data-step="4">
+            <h5>Qualify</h5>
+            <p>Only serious homeowners get through</p>
+          </button>
+          <button class="tab" data-step="5">
+            <h5>Book</h5>
+            <p>They pick a time that works for both of you</p>
+          </button>
+          <button class="tab" data-step="6">
+            <h5>Remind</h5>
+            <p>Auto reminders keep show rates high</p>
+          </button>
         </div>
-        <div class="step">
-          <div class="num">02</div>
-          <h5>Ramp Funnel</h5>
-          <p>Low-friction to high-friction. We earn data fast, then dial in quality.</p>
-        </div>
-        <div class="step">
-          <div class="num">03</div>
-          <h5>Conversion Show</h5>
-          <p>Our in-house setters phone, qualify, and seat them on your real calendar slots.</p>
-        </div>
-        <div class="step">
-          <div class="num">04</div>
-          <h5>You Close</h5>
-          <p>We hand off seated, qualified homeowners on the slots you own. Your team does what they do best.</p>
-        </div>
-      </div>
 
-      <div class="grid-3" style="margin-top:8px">
-        <div class="card">
-          <div class="label">Built for</div>
-          <h3 class="h-card">Premium home-services</h3>
-          <p class="body">Walk-in showers, bath remodels, cabinets, windows, kitchens. Ticket sizes $8k+.</p>
-        </div>
-        <div class="card">
-          <div class="label">Operating model</div>
-          <h3 class="h-card">We own the funnel</h3>
-          <p class="body">Creative, media buying, landing pages, CRM, setters, calendar sync — all under one roof.</p>
-        </div>
-        <div class="card">
-          <div class="label">Your job</div>
-          <h3 class="h-card">Show up and close</h3>
-          <p class="body">Give us your bookable windows and your service area. We fill the calendar.</p>
+        <div class="phone-wrap">
+          <div class="phone">
+            <div class="notch"></div>
+            <div class="phone-screen">
+
+              <!-- 1 — Target -->
+              <div class="screen on" data-step="1">
+                <span class="screen-pill">Step 1</span>
+                <h4 class="screen-title">Target Your Service Area</h4>
+                <div class="map">
+                  <span class="zip green" style="top:14%;left:48%">33647</span>
+                  <span class="zip green" style="top:22%;left:28%">33625</span>
+                  <span class="zip green" style="top:28%;left:60%">33617</span>
+                  <span class="zip green" style="top:34%;left:42%">33618</span>
+                  <span class="zip green" style="top:40%;left:68%">33511</span>
+                  <span class="zip green" style="top:46%;left:24%">33758</span>
+                  <span class="zip green" style="top:50%;left:50%">33604</span>
+                  <span class="zip green" style="top:56%;left:34%">33615</span>
+                  <span class="zip green" style="top:60%;left:62%">33607</span>
+                  <span class="zip red" style="top:66%;left:44%">33606</span>
+                  <span class="zip green" style="top:72%;left:64%">33610</span>
+                  <span class="zip red" style="top:78%;left:32%">33629</span>
+                  <span class="zip red" style="top:84%;left:54%">33534</span>
+                  <div class="legend">
+                    <span><i class="green"></i>$90k+ income</span>
+                    <span><i class="red"></i>Low income / out of area</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 2 — Attract -->
+              <div class="screen" data-step="2">
+                <span class="screen-pill">Step 2</span>
+                <h4 class="screen-title">Scroll-Stopping Ads</h4>
+                <div class="ad">
+                  <div class="ad-head">
+                    <div class="avatar">B</div>
+                    <div>
+                      <div class="name">Your Brand</div>
+                      <div class="sub">Sponsored</div>
+                    </div>
+                  </div>
+                  <div class="ad-body">Transform your bathroom into a modern oasis</div>
+                  <div class="ad-image">
+                    <img src="images/bath-creative-1.png" alt="">
+                    <div class="pbtn"><span>▶</span></div>
+                    <div class="badge">OUTDATED</div>
+                  </div>
+                  <div class="ad-meta"><span>2.8K likes</span><span>187 comments</span></div>
+                </div>
+              </div>
+
+              <!-- 3 — Engage -->
+              <div class="screen" data-step="3">
+                <span class="screen-pill">Step 3</span>
+                <h4 class="screen-title">Engage</h4>
+                <div class="engage">
+                  <div class="et">Intelligent Ad Copy</div>
+                  <div class="es">Psychology-driven messaging that converts</div>
+                  <span class="ep">Copy 1 of 3</span>
+                  <div class="eb">Most contractors run your bathroom remodel like a cheap roadside motel. Mess everywhere. No standards. Zero accountability. We run ours like a hospital — every detail precise, every step a proven process.</div>
+                  <div class="ed"><i class="on"></i><i></i><i></i></div>
+                </div>
+              </div>
+
+              <!-- 4 — Qualify -->
+              <div class="screen" data-step="4">
+                <span class="screen-pill">Step 4</span>
+                <h4 class="screen-title">Qualifying Questions</h4>
+                <div class="quiz">
+                  <div class="q"><div class="t">Within 60 minutes of your area?</div><div class="ans">✓ Yes</div></div>
+                  <div class="q"><div class="t">Are you the homeowner?</div><div class="ans">✓ Yes</div></div>
+                  <div class="q">
+                    <div class="t">How will you be paying?</div>
+                    <div class="opts">
+                      <span class="opt on">Cash</span>
+                      <span class="opt">Financing</span>
+                      <span class="opt">Insurance</span>
+                    </div>
+                  </div>
+                  <div class="q"><div class="t">Scope of project?</div><div class="ans">✓ Full Bathroom Remodel</div></div>
+                  <div class="q">
+                    <div class="t">When do you need this done?</div>
+                    <div class="opts">
+                      <span class="opt on">ASAP</span>
+                      <span class="opt">1–3 Mo</span>
+                      <span class="opt">6+ Mo</span>
+                    </div>
+                  </div>
+                  <div class="qcta">Continue to Book</div>
+                </div>
+              </div>
+
+              <!-- 5 — Book -->
+              <div class="screen" data-step="5">
+                <span class="screen-pill">Step 5</span>
+                <h4 class="screen-title">Self-Booking Calendar</h4>
+                <div class="cal">
+                  <div class="days"><span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span></div>
+                  <div class="dates">
+                    <b class="dim">15</b><b class="dim">16</b><b class="dim">17</b><b class="avail">18</b><b class="sel">19</b><b class="avail">20</b><b>21</b>
+                    <b>22</b><b class="avail">23</b><b class="avail">24</b><b>25</b><b class="avail">26</b><b class="avail">27</b><b>28</b>
+                  </div>
+                  <div class="slots">
+                    <b>9:00 AM</b><b class="on">10:00 AM</b><b>11:00 AM</b>
+                    <b>1:00 PM</b><b>2:00 PM</b><b>3:00 PM</b>
+                  </div>
+                  <div class="confirm">Confirm Appointment</div>
+                </div>
+              </div>
+
+              <!-- 6 — Remind -->
+              <div class="screen" data-step="6">
+                <span class="screen-pill">Step 6</span>
+                <h4 class="screen-title">Automatic Reminders</h4>
+                <div class="rem">
+                  <div>
+                    <div class="when">24 hrs before</div>
+                    <div class="msg">
+                      <div class="tag">SMS</div>
+                      <div class="body">"Hi John — reminder about your appointment tomorrow at 10:00 AM…"<div class="sent">Sent</div></div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="when">24 hrs before</div>
+                    <div class="msg">
+                      <div class="tag email">@</div>
+                      <div class="body">"Your bathroom estimate is confirmed for tomorrow…"<div class="sent">Sent</div></div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="when">1 hr before</div>
+                    <div class="msg">
+                      <div class="tag">SMS</div>
+                      <div class="body">"See you in 1 hour — our estimator is on the way."<div class="sent sched">Scheduled</div></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -718,6 +987,69 @@
     </div>
   </section>
 
+  <!-- 8b — NO-SHOW INTERACTIVE FLOW -->
+  <section class="slide">
+    <div class="inner stack-lg">
+      <div class="section-head">
+        <div class="stack-sm">
+          <span class="eyebrow"><span class="dot"></span>The no-show guarantee, in action</span>
+          <h2 class="h-section">If they don't show, you don't pay.</h2>
+        </div>
+        <div class="right body">
+          After every appointment, we send you a one-question email. Mark "No-show", confirm in one click, and a credit is applied automatically — no calls, no chasing. Try it below.
+        </div>
+      </div>
+
+      <div class="nsflow">
+        <div class="email-card" id="nsEmail">
+          <div class="email-head">
+            <div class="email-from"><b>Rambitious Media</b><span>2 hrs ago</span></div>
+            <div class="email-subject">How did the appointment go?</div>
+          </div>
+          <div class="email-body">
+            <p>Hey — quick check-in on your <b>10:00 AM</b> appointment with <b>John D.</b> today.</p>
+            <p>Did they show up?</p>
+          </div>
+          <div class="email-buttons">
+            <button class="yes" onclick="nsShow()">✓ Showed up</button>
+            <button class="no" onclick="nsAskNoShow()">✕ No-show</button>
+          </div>
+        </div>
+
+        <div class="ns-modal" id="nsModalEl">
+          <div class="ns-modal-box">
+            <h3>Confirm no-show</h3>
+            <p>This will credit your account so your next seated appointment is free. We take this seriously — we eat the cost of the appointment.</p>
+            <label class="check">
+              <input type="checkbox" id="nsCheck" onchange="document.getElementById('nsConfirmBtn').disabled = !this.checked">
+              <span>I confirm that <b>John D.</b> did not attend the scheduled 10:00 AM appointment.</span>
+            </label>
+            <div class="actions">
+              <button class="cancel" onclick="nsCancel()">Cancel</button>
+              <button class="ok" id="nsConfirmBtn" disabled onclick="nsApplyCredit()">Apply credit</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="ns-result" id="nsCredited">
+          <div class="icn">✓</div>
+          <h3>Credit applied.</h3>
+          <p>Your next seated appointment is on us — no extra step required. We'll keep filling your calendar.</p>
+          <div class="stamp">+1 free seat credit · applied automatically</div>
+          <button class="reset" onclick="nsReset()">Try the other path</button>
+        </div>
+
+        <div class="ns-result billed" id="nsShown">
+          <div class="icn">$</div>
+          <h3>Appointment confirmed.</h3>
+          <p>The estimate is logged as seated. A single line-item charge has been added to this week's invoice.</p>
+          <div class="stamp">1 seated appointment · $175</div>
+          <button class="reset" onclick="nsReset()">Try the other path</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- 9 — UNIT ECONOMICS -->
   <section class="slide">
     <div class="inner stack-lg">
@@ -790,64 +1122,94 @@
     </div>
   </section>
 
-  <!-- 11 — NEXT STEPS -->
+  <!-- 12 — TIMING -->
   <section class="slide">
     <div class="inner stack-lg">
       <div class="section-head">
         <div class="stack-sm">
-          <span class="eyebrow"><span class="dot"></span>What happens after this call</span>
-          <h2 class="h-section">If this is a fit, here's the rollout.</h2>
+          <span class="eyebrow"><span class="dot"></span>How fast this happens</span>
+          <h2 class="h-section">Live in 48 hours.<br/>First appointment 72–96 hours after that.</h2>
         </div>
-        <div class="right body">From handshake to first seated appointment is typically 7–10 days.</div>
+        <div class="right body">That's the whole timeline. We move fast because we already know what works in your vertical.</div>
       </div>
 
-      <div class="roadmap">
-        <div class="step">
-          <div class="num">Day 1</div>
-          <h5>Onboarding call</h5>
-          <p>You hand off service area, bookable windows, average ticket, scope filters, and your top objections.</p>
+      <div class="grid-2" style="margin-top:8px">
+        <div class="card" style="padding:36px">
+          <div class="label">Within 48 hours</div>
+          <h3 style="font-size:clamp(32px,3.6vw,48px);font-weight:800;letter-spacing:-.025em;line-height:1.05;margin-top:6px">We launch your campaign.</h3>
+          <p class="body" style="margin-top:14px">Creative deployed. Funnel built. CRM routing live. Setters trained on your brief and your bookable windows.</p>
         </div>
-        <div class="step">
-          <div class="num">Day 2–4</div>
-          <h5>Build phase</h5>
-          <p>We spin up your campaign in our ad account, point creative at your geo, build the funnel and CRM routing.</p>
+        <div class="card" style="padding:36px;background:var(--ink);color:#fff;border-color:var(--ink)">
+          <div class="label" style="color:#cfcfcf">72–96 hours after launch</div>
+          <h3 style="font-size:clamp(32px,3.6vw,48px);font-weight:800;letter-spacing:-.025em;line-height:1.05;margin-top:6px;color:#fff">First seated appointment.</h3>
+          <p style="margin-top:14px;font-size:16px;line-height:1.6;color:#dcdcdc">A real homeowner sits with your estimator. No retainer drag, no slow ramp — straight to a calendar entry.</p>
         </div>
-        <div class="step">
-          <div class="num">Day 5–6</div>
-          <h5>Launch</h5>
-          <p>Ads go live. Setters trained on your brief. First leads typically inside 24 hours of launch.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13 — QUESTIONS / REVIEW -->
+  <section class="slide">
+    <div class="inner" style="text-align:center;max-width:880px">
+      <span class="eyebrow" style="justify-content:center"><span class="dot"></span>Open floor</span>
+      <h2 class="h-hero" style="margin-top:18px">Questions?</h2>
+      <p class="lede" style="margin:24px auto 0;text-align:center">How does everything sound so far? Anything you want me to dig into — the funnel, the setters, the math, the no-show credit, the timing?</p>
+
+      <div class="row" style="justify-content:center;margin-top:28px">
+        <span class="pill">Funnel mechanics</span>
+        <span class="pill">In-house setting team</span>
+        <span class="pill">The math</span>
+        <span class="pill">No-show credit</span>
+        <span class="pill">Timing</span>
+        <span class="pill">Anything else</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14 — FINAL PRICING RECAP -->
+  <section class="slide">
+    <div class="inner stack-lg">
+      <div class="section-head">
+        <div class="stack-sm">
+          <span class="eyebrow"><span class="dot"></span>The deal, in plain English</span>
+          <h2 class="h-section">Here's how this works.</h2>
         </div>
-        <div class="step">
-          <div class="num">Day 7+</div>
-          <h5>Seats</h5>
-          <p>First seated appointments land on your calendar. Billing only triggers on attendance.</p>
-        </div>
+        <div class="right body">No retainers. No long contracts. No surprise invoices. One upfront, then performance-based after that.</div>
       </div>
 
       <div class="price-block" style="margin-top:8px">
         <div class="price-card">
-          <h3 style="font-size:clamp(30px,3.6vw,52px);font-weight:800;letter-spacing:-.025em;max-width:18ch;line-height:1.05">Let's lock the first month.</h3>
-          <p style="margin-top:14px;color:#dcdcdc;font-size:15.5px;line-height:1.6;max-width:54ch">If we can agree on bookable windows and a target volume today, you'll be seeing seated estimates on your calendar by next week. The only risk you take on is the cost of the appointments you show up to.</p>
-
-          <div class="row" style="margin-top:22px">
-            <span class="btn" style="background:#fff;color:var(--ink)">Start the rollout</span>
-            <span class="btn ghost" style="background:transparent;color:#fff;border-color:rgba(255,255,255,.25)">Send me the agreement</span>
+          <div class="label">One-time</div>
+          <div style="display:flex;align-items:flex-end;gap:14px;margin-top:6px">
+            <div class="big">$1,000</div>
+            <div class="sub" style="margin-bottom:16px">upfront,<br/>one time</div>
           </div>
+          <p style="margin-top:10px;color:#dcdcdc;font-size:15.5px;line-height:1.6;max-width:48ch">
+            That covers campaign build, creative deployment, CRM routing, funnel setup, and setter training. One-time. That's it.
+          </p>
+
+          <ul>
+            <li><span class="icn">✓</span> <span>After that — <b style="color:#fff">we cover the ad spend.</b></span></li>
+            <li><span class="icn">✓</span> <span>After that — <b style="color:#fff">we carry the risk.</b></span></li>
+            <li><span class="icn">✓</span> <span>You only pay when <b style="color:#fff">we sit you inside someone's house.</b></span></li>
+          </ul>
         </div>
 
         <div class="stack-md">
           <div class="card">
-            <div class="label">Simple terms</div>
-            <h3 class="h-card">No contracts. No retainers.</h3>
-            <p class="body">Month-to-month. You only pay per seated appointment. If we ever stop seating, you stop paying — simple.</p>
+            <div class="label">Per-seat</div>
+            <h3 style="font-size:36px;font-weight:800;letter-spacing:-.025em;margin-top:4px">$175 / seated appointment</h3>
+            <p class="body" style="margin-top:8px">Flat. After we sit them with you. No-shows credit back. Cancellations credit back.</p>
           </div>
           <div class="card">
-            <div class="label">Direct line</div>
-            <h3 class="h-card">One Slack channel. One owner.</h3>
-            <p class="body">You'll have me directly. No account-manager tag, no ticket queue. We move at your speed.</p>
+            <div class="label">Simple terms</div>
+            <h3 class="h-card">No contracts. No retainers.</h3>
+            <p class="body">Month-to-month. If we stop seating, you stop paying.</p>
           </div>
         </div>
       </div>
+
+      <p class="pull" style="margin-top:14px">$1k upfront. After that — we eat the ad spend. You only pay when we sit you inside someone's house.</p>
     </div>
   </section>
 
@@ -908,6 +1270,42 @@
     const dy = e.changedTouches[0].clientY - ty;
     if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy)) go(idx + (dx < 0 ? 1 : -1));
   });
+
+  // Interactive system widget — tab switching
+  (function(){
+    const root = document.getElementById('iwid');
+    if (!root) return;
+    const tabs = root.querySelectorAll('.tab');
+    const screens = root.querySelectorAll('.screen');
+    tabs.forEach(t => t.addEventListener('click', () => {
+      const step = t.dataset.step;
+      tabs.forEach(x => x.classList.toggle('on', x === t));
+      screens.forEach(s => s.classList.toggle('on', s.dataset.step === step));
+    }));
+  })();
+
+  // No-show flow
+  function nsAskNoShow(){
+    document.getElementById('nsModalEl').classList.add('on');
+  }
+  function nsCancel(){
+    document.getElementById('nsModalEl').classList.remove('on');
+    document.getElementById('nsCheck').checked = false;
+    document.getElementById('nsConfirmBtn').disabled = true;
+  }
+  function nsApplyCredit(){
+    document.getElementById('nsModalEl').classList.remove('on');
+    document.getElementById('nsCredited').classList.add('on');
+  }
+  function nsShow(){
+    document.getElementById('nsShown').classList.add('on');
+  }
+  function nsReset(){
+    document.getElementById('nsCredited').classList.remove('on');
+    document.getElementById('nsShown').classList.remove('on');
+    document.getElementById('nsCheck').checked = false;
+    document.getElementById('nsConfirmBtn').disabled = true;
+  }
 </script>
 </body>
 </html>
