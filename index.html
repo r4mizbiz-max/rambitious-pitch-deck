@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>The Appointment Generator — Rambitious Media</title>
+<title>The Growth Engine — Rambitious Media</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -92,6 +92,10 @@
     background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px;
   }
   .card.soft{background:var(--soft-2)}
+  .card.dark{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .card.dark .label{color:#cfcfcf}
+  .card.dark h3,.card.dark .h-card{color:#fff}
+  .card.dark p,.card.dark li{color:#dcdcdc}
   .card .label{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3)}
   .card h3{margin-top:6px}
   .card p{margin-top:8px}
@@ -156,7 +160,7 @@
     margin-top:32px;display:grid;grid-template-columns:repeat(4,1fr);gap:14px;
   }
   .stats .s{padding:18px;border:1px solid var(--line);border-radius:12px}
-  .stats .s b{display:block;font-size:30px;font-weight:800;letter-spacing:-.02em;color:var(--ink)}
+  .stats .s b{display:block;font-size:24px;font-weight:800;letter-spacing:-.02em;color:var(--ink)}
   .stats .s span{color:var(--ink-3);font-size:13px;font-weight:500;margin-top:4px;display:block}
   @media (max-width:760px){.stats{grid-template-columns:1fr 1fr}}
 
@@ -218,11 +222,12 @@
 
   /* Roadmap / numbered grid */
   .roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .roadmap.five{grid-template-columns:repeat(5,1fr)}
   .roadmap .step{padding:20px;border-radius:12px;border:1px solid var(--line);background:#fff}
   .roadmap .step .num{font-size:24px;font-weight:800;letter-spacing:-.02em;color:var(--ink)}
-  .roadmap .step h5{font-size:17px;font-weight:700;margin:4px 0 6px}
-  .roadmap .step p{color:var(--ink-2);font-size:14px;line-height:1.5}
-  @media (max-width:960px){.roadmap{grid-template-columns:1fr 1fr}}
+  .roadmap .step h5{font-size:16px;font-weight:700;margin:4px 0 6px}
+  .roadmap .step p{color:var(--ink-2);font-size:13.5px;line-height:1.5}
+  @media (max-width:960px){.roadmap,.roadmap.five{grid-template-columns:1fr 1fr}}
 
   /* Funnel ramp */
   .funnel{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
@@ -241,6 +246,7 @@
 
   /* Process */
   .process{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .process.two{grid-template-columns:1fr 1fr}
   .process .p{padding:16px;border-radius:12px;border:1px solid var(--line)}
   .process .p .lab{font-size:11px;font-weight:600;color:var(--ink-3);letter-spacing:.06em;text-transform:uppercase}
   .process .p .ti{font-size:16px;font-weight:700;margin:4px 0 6px}
@@ -249,31 +255,12 @@
 
   /* Numbers grid */
   .numgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .numgrid.two{grid-template-columns:1fr 1fr}
   .numgrid .n{padding:22px;border:1px solid var(--line);border-radius:12px;background:#fff}
   .numgrid .n span{font-size:12px;font-weight:600;color:var(--ink-3);text-transform:uppercase;letter-spacing:.06em}
   .numgrid .n b{display:block;font-size:36px;font-weight:800;letter-spacing:-.025em;margin-top:6px;color:var(--ink)}
   .numgrid .n p{margin-top:8px;color:var(--ink-2);font-size:13.5px;line-height:1.5}
   @media (max-width:960px){.numgrid{grid-template-columns:1fr 1fr}}
-
-  /* Pricing block */
-  .price-block{
-    display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:stretch;
-  }
-  .price-card{
-    padding:36px;border-radius:18px;background:var(--ink);color:#fff;
-    display:flex;flex-direction:column;justify-content:center;
-  }
-  .price-card .label{font-size:12px;font-weight:600;color:#cfcfcf;text-transform:uppercase;letter-spacing:.08em}
-  .price-card .big{font-size:clamp(64px,8vw,108px);font-weight:800;letter-spacing:-.04em;line-height:.95;margin-top:6px}
-  .price-card .sub{color:#cfcfcf;font-size:14px;margin-top:6px;font-weight:500}
-  .price-card ul{list-style:none;margin-top:22px}
-  .price-card li{
-    padding:12px 0;border-top:1px solid rgba(255,255,255,.12);
-    display:flex;gap:12px;color:#e8e8e8;font-size:15px;
-  }
-  .price-card li:first-of-type{border-top:none}
-  .price-card li .icn{width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,.15);display:grid;place-items:center;font-size:11px;font-weight:700;color:#fff;flex:0 0 18px;margin-top:2px}
-  @media (max-width:960px){.price-block{grid-template-columns:1fr}}
 
   /* Checklist */
   .checklist{list-style:none;margin-top:10px}
@@ -299,7 +286,7 @@
   .btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--line-2)}
 
   /* Pull quote */
-  .pull{font-size:clamp(22px,2.6vw,32px);font-weight:700;letter-spacing:-.015em;line-height:1.25;color:var(--ink);max-width:30ch}
+  .pull{font-size:clamp(22px,2.6vw,32px);font-weight:700;letter-spacing:-.015em;line-height:1.25;color:var(--ink);max-width:34ch}
 
   /* Interactive system widget */
   .iwid{display:grid;grid-template-columns:1.05fr .95fr;gap:36px;align-items:center;margin-top:6px}
@@ -332,27 +319,11 @@
   .screen-pill{align-self:flex-start;background:#fef0e2;color:#9b6438;font-size:9px;font-weight:700;letter-spacing:.06em;padding:3px 8px;border-radius:5px;text-transform:uppercase}
   .screen-title{font-size:16px;font-weight:800;letter-spacing:-.015em;color:#0a0a0a;text-align:center}
 
-  .map{position:relative;background:linear-gradient(180deg,#e7eef0,#d6dee0);border-radius:8px;flex:1;overflow:hidden;min-height:260px}
-  .map .zip{position:absolute;font-size:8.5px;font-weight:700;color:#fff;padding:3px 5px;border-radius:3px;border:1px solid rgba(0,0,0,.1);transform:translate(-50%,-50%)}
-  .map .zip.green{background:#22c55e}
-  .map .zip.red{background:#ef4444}
-  .map .legend{position:absolute;left:6px;bottom:6px;background:#fff;border-radius:5px;padding:5px 7px;font-size:8.5px;display:flex;flex-direction:column;gap:2px;box-shadow:0 2px 4px rgba(0,0,0,.08);color:#0a0a0a;font-weight:500}
-  .map .legend i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:4px;vertical-align:middle}
-  .map .legend i.green{background:#22c55e}
-  .map .legend i.red{background:#ef4444}
-
   .ad{background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden}
   .ad-head{display:flex;align-items:center;gap:6px;padding:8px}
   .ad-head .avatar{width:24px;height:24px;border-radius:50%;background:#0a0a0a;display:grid;place-items:center;font-weight:700;font-size:9px;color:#fff}
   .ad-head .name{font-weight:700;font-size:10px;color:#0a0a0a;line-height:1.2}
   .ad-head .sub{font-size:9px;color:var(--ink-4);line-height:1.2}
-  .ad-body{padding:0 8px 8px;font-size:10px;color:#0a0a0a}
-  .ad-image{position:relative;width:100%;aspect-ratio:1/1;background:#000;display:block;overflow:hidden}
-  .ad-image img{width:100%;height:100%;object-fit:cover}
-  .ad-image .pbtn{position:absolute;inset:0;display:grid;place-items:center}
-  .ad-image .pbtn span{width:38px;height:38px;border-radius:6px;background:#3b82f6;display:grid;place-items:center;color:#fff;font-size:14px}
-  .ad-image .badge{position:absolute;left:8px;bottom:8px;color:#fff;font-weight:800;font-size:10px;letter-spacing:.04em;text-shadow:0 1px 3px rgba(0,0,0,.5)}
-  .ad-meta{display:flex;justify-content:space-between;padding:6px 8px;font-size:9px;color:var(--ink-4)}
 
   .engage{background:#fff;border:1px solid var(--line);border-radius:8px;padding:12px;flex:1;display:flex;flex-direction:column;gap:6px;min-height:0}
   .engage .et{font-size:13px;font-weight:700;text-align:center;color:#0a0a0a}
@@ -411,7 +382,9 @@
   .feed::-webkit-scrollbar-track{background:transparent}
   .feed::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:2px}
   .ad-tile{background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden;flex-shrink:0}
+  .ad-body{padding:0 8px 8px;font-size:10px;color:#0a0a0a}
   .ad-vid{width:100%;aspect-ratio:1/1;object-fit:cover;background:#000;display:block}
+  .ad-meta{display:flex;justify-content:space-between;padding:6px 8px;font-size:9px;color:var(--ink-4)}
 
   /* Engage copy carousel */
   .copy-window{flex:1;position:relative;min-height:140px;overflow:hidden;margin-top:4px}
@@ -432,50 +405,19 @@
   .qcta,.confirm{cursor:pointer;transition:filter .15s}
   .qcta:hover,.confirm:hover{filter:brightness(1.08)}
 
-  /* No-show flow */
-  .nsflow{position:relative;min-height:460px;display:flex;align-items:center;justify-content:center;margin-top:18px}
-  .email-card{
-    width:100%;max-width:540px;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;
-    box-shadow:0 22px 60px -28px rgba(0,0,0,.18);position:relative;z-index:1;
-  }
-  .email-head{padding:18px 22px;border-bottom:1px solid var(--line)}
-  .email-from{display:flex;justify-content:space-between;font-size:12px;color:var(--ink-3)}
-  .email-from b{color:var(--ink);font-weight:700}
-  .email-subject{font-size:20px;font-weight:800;letter-spacing:-.015em;margin-top:8px;color:var(--ink)}
-  .email-body{padding:22px;font-size:15px;line-height:1.55;color:var(--ink-2)}
-  .email-body p+p{margin-top:10px}
-  .email-buttons{display:flex;gap:10px;padding:0 22px 22px}
-  .email-buttons button{flex:1;padding:14px;border-radius:10px;border:none;font-weight:700;font-size:14.5px;cursor:pointer;font-family:inherit}
-  .email-buttons .yes{background:#16a34a;color:#fff}
-  .email-buttons .yes:hover{background:#15803d}
-  .email-buttons .no{background:#fff;color:#991b1b;border:1px solid #fecaca}
-  .email-buttons .no:hover{background:#fee2e2}
-
-  .ns-modal{position:absolute;inset:0;background:rgba(10,10,10,.55);display:none;align-items:center;justify-content:center;border-radius:16px;padding:30px;z-index:4}
-  .ns-modal.on{display:flex}
-  .ns-modal-box{background:#fff;border-radius:14px;padding:28px;max-width:440px;width:100%;box-shadow:0 24px 60px -10px rgba(0,0,0,.4)}
-  .ns-modal-box h3{font-size:21px;font-weight:800;letter-spacing:-.02em;color:var(--ink)}
-  .ns-modal-box p{font-size:14px;color:var(--ink-2);line-height:1.55;margin-top:8px}
-  .ns-modal-box .check{display:flex;gap:10px;align-items:flex-start;margin-top:18px;padding:14px;background:var(--soft-2);border-radius:10px;cursor:pointer}
-  .ns-modal-box .check input{margin-top:2px;flex:0 0 16px;cursor:pointer;accent-color:#0a0a0a;width:16px;height:16px}
-  .ns-modal-box .check label{font-size:14px;color:var(--ink);line-height:1.45;cursor:pointer}
-  .ns-modal-box .actions{display:flex;gap:10px;margin-top:16px}
-  .ns-modal-box .actions button{flex:1;padding:12px;border-radius:10px;border:none;font-weight:700;font-size:13.5px;cursor:pointer;font-family:inherit}
-  .ns-modal-box .cancel{background:#fff;border:1px solid var(--line);color:var(--ink)}
-  .ns-modal-box .cancel:hover{background:var(--soft)}
-  .ns-modal-box .ok{background:#0a0a0a;color:#fff}
-  .ns-modal-box .ok:disabled{background:#cbd5e1;cursor:not-allowed}
-  .ns-modal-box .ok:not(:disabled):hover{background:#222}
-
-  .ns-result{position:absolute;inset:0;background:#fff;border:1px solid var(--line);border-radius:14px;display:none;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:30px;z-index:5;box-shadow:0 22px 60px -28px rgba(0,0,0,.18)}
-  .ns-result.on{display:flex}
-  .ns-result .icn{width:62px;height:62px;border-radius:50%;background:#dcfce7;display:grid;place-items:center;color:#16a34a;font-size:30px;margin-bottom:14px;font-weight:800}
-  .ns-result.billed .icn{background:#dbeafe;color:#1e40af}
-  .ns-result h3{font-size:24px;font-weight:800;letter-spacing:-.02em;color:var(--ink)}
-  .ns-result p{font-size:15px;color:var(--ink-2);max-width:42ch;line-height:1.55;margin-top:8px}
-  .ns-result .stamp{margin-top:18px;padding:12px 18px;background:#dcfce7;border:1px solid #86efac;border-radius:10px;font-size:14px;color:#15803d;font-weight:700}
-  .ns-result.billed .stamp{background:#dbeafe;border-color:#93c5fd;color:#1e40af}
-  .ns-result .reset{margin-top:18px;color:var(--ink-3);font-size:13px;cursor:pointer;background:none;border:none;text-decoration:underline;font-family:inherit}
+  /* Pillar 3 — incoming call screen */
+  .callui{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:40px 18px 26px;background:linear-gradient(180deg,#0a0a0a,#1d1d1d);border-radius:28px;color:#fff;text-align:center}
+  .callui .ct{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#9a9a9a;font-weight:700}
+  .callui .timer{margin-top:6px;font-size:11px;color:#22c55e;font-weight:700;letter-spacing:.04em}
+  .callui .cav{width:84px;height:84px;border-radius:50%;background:#fff;color:#0a0a0a;display:grid;place-items:center;font-size:30px;font-weight:800;margin-top:18px}
+  .callui .cname{font-size:21px;font-weight:800;letter-spacing:-.02em;margin-top:16px}
+  .callui .cstat{font-size:12.5px;color:#bdbdbd;margin-top:4px}
+  .callui .cbadge{margin-top:16px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);padding:6px 12px;border-radius:999px;font-size:10.5px;font-weight:600;color:#fff;line-height:1.3}
+  .callui .cactions{display:flex;gap:44px;margin-top:auto}
+  .callui .cbtn2{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;font-size:22px}
+  .callui .cbtn2.dec{background:#ef4444}
+  .callui .cbtn2.acc{background:#22c55e}
+  .callcap{text-align:center;margin-top:14px;font-size:13px;color:var(--ink-3);font-weight:600}
 
   /* Print */
   @media print{
@@ -502,7 +444,7 @@
   <button class="arrow" id="prev" aria-label="Previous">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
   </button>
-  <div class="counter"><b id="cur">1</b> / <span id="tot">11</span></div>
+  <div class="counter"><b id="cur">1</b> / <span id="tot">10</span></div>
   <button class="arrow" id="next" aria-label="Next">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
   </button>
@@ -513,127 +455,127 @@
   <!-- 1 — HERO -->
   <section class="slide active">
     <div class="inner stack-lg">
-      <span class="eyebrow"><span class="dot"></span>Rambitious Media · Meta Ads</span>
+      <span class="eyebrow"><span class="dot"></span>Rambitious Media · For Premium Bathroom Remodelers</span>
 
       <h1 class="h-hero">
-        Seated estimates.<br/>Not leads.
+        Real projects.<br/>Not just leads.
       </h1>
 
       <p class="lede">
-        A different way to run paid acquisition for premium home-services brands.
-        Calendar-direct. Speed-first. Built backwards from the appointment —
-        not the click.
+        A complete system for filling your calendar with qualified homeowners who are
+        ready to remodel — built backwards from the project, not the click.
       </p>
 
       <div class="row">
-        <span class="pill dark">For premium home-services</span>
-        <span class="pill">Designed around seated estimates</span>
-        <span class="pill">Built for closers, not callers</span>
+        <span class="pill dark">Proven ad frameworks</span>
+        <span class="pill">Pre-qualified homeowners</span>
+        <span class="pill">Built for closers</span>
       </div>
 
       <div class="stats">
-        <div class="s"><b>Calendar-direct</b><span>We seat them, not just send them</span></div>
-        <div class="s"><b>Unbranded</b><span>Generic creative library</span></div>
-        <div class="s"><b>In-house</b><span>Setters dial in &lt;5 minutes</span></div>
-        <div class="s"><b>Seat-first</b><span>Built around attendance</span></div>
+        <div class="s"><b>Proven</b><span>Frameworks tested across 100s of companies</span></div>
+        <div class="s"><b>Qualified</b><span>Real homeowners, not tire-kickers</span></div>
+        <div class="s"><b>Fast</b><span>Speed-to-lead under 5 minutes</span></div>
+        <div class="s"><b>Done-for-you</b><span>Ads, funnel, follow-up — all of it</span></div>
       </div>
     </div>
   </section>
 
-  <!-- 2 — THE PROBLEM -->
+  <!-- 2 — THE 5 PILLARS OVERVIEW -->
   <section class="slide">
     <div class="inner stack-lg">
       <div class="section-head">
         <div class="stack-sm">
-          <span class="eyebrow"><span class="dot"></span>Why this is different</span>
-          <h2 class="h-section">Lead-gen is broken.<br/>Seated appointments aren't.</h2>
+          <span class="eyebrow"><span class="dot"></span>What we build for you</span>
+          <h2 class="h-section">Five systems.<br/>One growth engine.</h2>
         </div>
         <div class="right body">
-          Most "lead vendors" sell form-fills and call it a day. You buy the same lead three other guys bought. Your reps chase ghosts. Your CAC explodes. We rebuilt this from the appointment backwards.
+          When you come in, this is exactly what we build out for you — and each pillar
+          feeds the next, so nothing slips through the cracks.
+        </div>
+      </div>
+
+      <div class="roadmap five">
+        <div class="step">
+          <div class="num">1</div>
+          <h5>Transformation Ad Engine</h5>
+          <p>Proven ads that attract homeowners already planning a remodel.</p>
+        </div>
+        <div class="step">
+          <div class="num">2</div>
+          <h5>Homeowner Profit Funnel</h5>
+          <p>Filters out tire-kickers so only qualified homeowners get through.</p>
+        </div>
+        <div class="step">
+          <div class="num">3</div>
+          <h5>Homeowner Sales Team</h5>
+          <p>Our US-based team calls, qualifies & books every lead — fast.</p>
+        </div>
+        <div class="step">
+          <div class="num">4</div>
+          <h5>Backend Selling Systems</h5>
+          <p>We get them to show up ready to move forward.</p>
+        </div>
+        <div class="step">
+          <div class="num">5</div>
+          <h5>Scaling With Speed</h5>
+          <p>Mentorship + tracking so you grow with confidence.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 — PILLAR 1 : Transformation Ad Engine -->
+  <section class="slide">
+    <div class="inner stack-lg">
+      <div class="step-hero">
+        <div class="step-num lg">1</div>
+        <div class="stack-sm">
+          <div class="meta">Pillar 01 · Transformation Ad Engine</div>
+          <h2 class="h-step">Why most agencies flood you with<br/>leads that never become projects.</h2>
         </div>
       </div>
 
       <div class="compare">
         <div class="col bad">
-          <span class="pill">Old way</span>
-          <h4>Traditional lead-gen</h4>
+          <span class="pill">Most agencies</span>
+          <h4>Chase quantity</h4>
           <ul>
-            <li><span class="icn">✕</span> You pay $30–$80 per lead and chase them yourself</li>
-            <li><span class="icn">✕</span> Same lead sold to 3–6 competitors</li>
-            <li><span class="icn">✕</span> No-show rate 40–60% with no recourse</li>
-            <li><span class="icn">✕</span> Branded creative — ad fatigue in 14 days</li>
-            <li><span class="icn">✕</span> The vendor gets paid whether you close or not — volume is their game</li>
+            <li><span class="icn">✕</span> Cheap, discount-only offers focused on price</li>
+            <li><span class="icn">✕</span> Floods you with bargain-hunters & tire-kickers</li>
+            <li><span class="icn">✕</span> The same copy-paste ads everyone else runs</li>
+            <li><span class="icn">✕</span> Hours chasing people who forgot they signed up</li>
+            <li><span class="icn">✕</span> A calendar full of no-shows</li>
           </ul>
         </div>
         <div class="col good">
-          <span class="pill dark">Our way</span>
-          <h4>A seated-appointment system</h4>
+          <span class="pill dark">What we do</span>
+          <h4>Run proven ads</h4>
           <ul>
-            <li><span class="icn">✓</span> Leads are exclusive — never resold</li>
-            <li><span class="icn">✓</span> Our in-house team does the dialing, not yours</li>
-            <li><span class="icn">✓</span> Setters seat them on your real calendar, in slots you own</li>
-            <li><span class="icn">✓</span> Unbranded creative — no fatigue, no comp-steal</li>
-            <li><span class="icn">✓</span> We run the whole machine — creative, funnel, CRM, setting. You fund the media; we manage every dollar of it for quality.</li>
+            <li><span class="icn">✓</span> Frameworks proven across 100s of remodeling companies</li>
+            <li><span class="icn">✓</span> Target homeowners already planning a renovation</li>
+            <li><span class="icn">✓</span> Income + intent targeting, not the whole zip code</li>
+            <li><span class="icn">✓</span> Transformation creatives that stop the scroll</li>
+            <li><span class="icn">✓</span> Homeowners who are serious and ready to move</li>
           </ul>
         </div>
       </div>
 
-      <p class="pull">We win when you close — not when you click.</p>
+      <p class="pull">Nobody planning a remodel searches "cheapest handyman." They want the best — so that's who we put you in front of.</p>
     </div>
   </section>
 
-  <!-- 2b — WHY YOU FUND THE AD SPEND (alignment / objection pre-handle) -->
+  <!-- 4 — THE SYSTEM IN MOTION (interactive phone) -->
   <section class="slide">
     <div class="inner stack-lg">
       <div class="section-head">
         <div class="stack-sm">
-          <span class="eyebrow"><span class="dot"></span>The most important part</span>
-          <h2 class="h-section">You fund the ad spend.<br/>Here's why that's the point.</h2>
+          <span class="eyebrow"><span class="dot"></span>Pillars 1 & 2, in motion</span>
+          <h2 class="h-section">See the engine work.</h2>
         </div>
         <div class="right body">
-          This is the question every contractor asks — so let's handle it head-on. It's not a cost we're offloading. It's the single thing that makes us perform better for you.
-        </div>
-      </div>
-
-      <div class="compare">
-        <div class="col bad">
-          <span class="pill">When the agency funds it</span>
-          <h4>Misaligned by design</h4>
-          <ul>
-            <li><span class="icn">✕</span> They front the media, so the moment a campaign doesn't pop on day one, they <b>panic</b> — it's their money on the line.</li>
-            <li><span class="icn">✕</span> To stop the bleeding, they start <b>forcing through garbage appointments</b> just to justify the spend.</li>
-            <li><span class="icn">✕</span> You get low-quality, unqualified sits. Your close rate tanks.</li>
-            <li><span class="icn">✕</span> A month later you're frustrated and you churn. Everyone loses.</li>
-            <li><span class="icn">✕</span> Their incentive was survival — never your growth.</li>
-          </ul>
-        </div>
-        <div class="col good">
-          <span class="pill dark">When you fund it</span>
-          <h4>Perfectly aligned</h4>
-          <ul>
-            <li><span class="icn">✓</span> It's <b>your capital</b> — we don't ask you to "pay for marketing," we <b>manage your acquisition budget</b> for you.</li>
-            <li><span class="icn">✓</span> Zero pressure to recoup our own money means we can <b>throw away every unqualified lead without thinking twice</b>.</li>
-            <li><span class="icn">✓</span> Less pressure on us = higher quality for you. Our only job is turning your spend into the best possible appointments.</li>
-            <li><span class="icn">✓</span> If a lead isn't a fit, it's gone. If someone no-shows, it's credited — no incentive to push junk through.</li>
-            <li><span class="icn">✓</span> Our incentive is <b>100% your growth</b>. Nothing else.</li>
-          </ul>
-        </div>
-      </div>
-
-      <p class="pull">We don't sell you leads. We manage your acquisition capital — and turn it into seated estimates.</p>
-    </div>
-  </section>
-
-  <!-- 3 — INTERACTIVE SYSTEM OVERVIEW -->
-  <section class="slide">
-    <div class="inner stack-lg">
-      <div class="section-head">
-        <div class="stack-sm">
-          <span class="eyebrow"><span class="dot"></span>The system, end to end</span>
-          <h2 class="h-section">See it in motion.</h2>
-        </div>
-        <div class="right body">
-          Tap any stage on the left. Every campaign we run flows through these six — from zip-code targeting all the way to automated show-up reminders.
+          Tap any stage on the left. Every homeowner we reach flows through these six steps —
+          from zip-code targeting all the way to automatic show-up reminders.
         </div>
       </div>
 
@@ -690,7 +632,7 @@
                         <div class="sub">Sponsored</div>
                       </div>
                     </div>
-                    <div class="ad-body">Add $15k to your home value with one weekend bath upgrade.</div>
+                    <div class="ad-body">One weekend. A bathroom that finally feels brand new.</div>
                     <video class="ad-vid" src="videos/add-15k.mp4" playsinline preload="metadata" controls></video>
                     <div class="ad-meta"><span>2.8K likes</span><span>187 comments</span></div>
                   </div>
@@ -714,8 +656,8 @@
                         <div class="sub">Sponsored</div>
                       </div>
                     </div>
-                    <div class="ad-body">What if you could replace your cabinets without ripping them out?</div>
-                    <video class="ad-vid" src="videos/what-if-you-could-cabinets.mp4" playsinline preload="metadata" controls></video>
+                    <div class="ad-body">See the transformation — old, tired bathroom to spa-like retreat.</div>
+                    <img class="ad-vid" src="images/bath-collage.jpg" alt="Bathroom before and after" />
                     <div class="ad-meta"><span>5.1K likes</span><span>389 comments</span></div>
                   </div>
                 </div>
@@ -735,11 +677,11 @@
                     </div>
                     <div class="copy-slide" data-copy="2">
                       <span class="ep">Copy 2 of 3</span>
-                      <div class="eb">You don't need another quote. You need a contractor who shows up on time, finishes on time, and bills you what they quoted. We're the boring choice. The boring choice always wins.</div>
+                      <div class="eb">You don't need another quote. You need a remodeler who shows up on time, finishes on time, and treats your home like their own. We're the boring choice. The boring choice always wins.</div>
                     </div>
                     <div class="copy-slide" data-copy="3">
                       <span class="ep">Copy 3 of 3</span>
-                      <div class="eb">Here's the truth nobody tells you about bath remodels: 80% of jobs blow past budget because of "surprises". We pre-inspect. We pre-quote. The number we give you on day one is the number you pay on day done.</div>
+                      <div class="eb">Here's the truth nobody tells you about bath remodels: most projects drag on for weeks because of "surprises." We pre-inspect. We pre-plan. The timeline we give you on day one is the timeline you get.</div>
                     </div>
                   </div>
                   <div class="copy-nav">
@@ -762,16 +704,15 @@
                   <div class="q"><div class="t">Within 60 minutes of your area?</div><div class="ans">✓ Yes</div></div>
                   <div class="q"><div class="t">Are you the homeowner?</div><div class="ans">✓ Yes</div></div>
                   <div class="q">
-                    <div class="t">How will you be paying?</div>
+                    <div class="t">Both decision-makers available?</div>
                     <div class="opts">
-                      <button class="opt on">Cash</button>
-                      <button class="opt">Financing</button>
-                      <button class="opt">Insurance</button>
+                      <button class="opt on">Yes</button>
+                      <button class="opt">No</button>
                     </div>
                   </div>
                   <div class="q"><div class="t">Scope of project?</div><div class="ans">✓ Full Bathroom Remodel</div></div>
                   <div class="q">
-                    <div class="t">When do you need this done?</div>
+                    <div class="t">When do you want this done?</div>
                     <div class="opts">
                       <button class="opt on">ASAP</button>
                       <button class="opt">1–3 Mo</button>
@@ -809,21 +750,21 @@
                     <div class="when">24 hrs before</div>
                     <div class="msg">
                       <div class="tag">SMS</div>
-                      <div class="body">"Hi John — reminder about your appointment tomorrow at 10:00 AM…"<div class="sent">Sent</div></div>
+                      <div class="body">"Hi John — reminder about your in-home consultation tomorrow at 10:00 AM…"<div class="sent">Sent</div></div>
                     </div>
                   </div>
                   <div>
                     <div class="when">24 hrs before</div>
                     <div class="msg">
                       <div class="tag email">@</div>
-                      <div class="body">"Your bathroom estimate is confirmed for tomorrow…"<div class="sent">Sent</div></div>
+                      <div class="body">"Your bathroom consultation is confirmed for tomorrow…"<div class="sent">Sent</div></div>
                     </div>
                   </div>
                   <div>
                     <div class="when">1 hr before</div>
                     <div class="msg">
                       <div class="tag">SMS</div>
-                      <div class="body">"See you in 1 hour — our estimator is on the way."<div class="sent sched">Scheduled</div></div>
+                      <div class="body">"See you in 1 hour — your design consultant is on the way."<div class="sent sched">Scheduled</div></div>
                     </div>
                   </div>
                 </div>
@@ -836,304 +777,274 @@
     </div>
   </section>
 
-  <!-- 4 — Conversion show -->
+  <!-- 5 — PILLAR 2 : Homeowner Profit Funnel -->
   <section class="slide">
     <div class="inner stack-lg">
       <div class="step-hero">
-        <div class="step-num lg">03</div>
+        <div class="step-num lg">2</div>
         <div class="stack-sm">
-          <div class="meta">Step 03 · The conversion show</div>
-          <h2 class="h-step">The lead never touches you<br/>until they're sitting on your calendar.</h2>
+          <div class="meta">Pillar 02 · Homeowner Profit Funnel</div>
+          <h2 class="h-step">Every homeowner is pre-qualified<br/>before they ever reach you.</h2>
         </div>
       </div>
 
       <div class="grid-2-uneven">
         <div class="stack-md">
           <p class="lede">
-            Leads route into our CRM. <b style="color:var(--ink)">Our</b> in-house setting team calls them — not yours. They confirm homeowner status, scope, budget, and the slot.
+            Most agencies send everyone to a generic booking page — so you get flooded with people who waste your consultation time.
           </p>
           <p class="body">
-            You tell us your bookable windows — e.g. "Tuesdays at 10am, 1pm, 6pm." Our setters only book into those exact slots, and the appointment lands on your real calendar with a confirmation text plus 24h and 1h reminders.
+            We run every lead through a funnel that filters out the tire-kickers and builds trust in your brand — like a mini website with your best before-and-afters, your reviews, and your story.
           </p>
-
+          <p class="body" style="font-weight:600;color:var(--ink)">So every homeowner you meet:</p>
           <ul class="checklist">
-            <li>Speed-to-lead under 5 minutes during business hours</li>
-            <li>Triple-confirmation cadence (SMS + email + day-of reminder)</li>
-            <li>We disqualify renters, "just browsing", and out-of-area before booking</li>
-            <li>You only see a name on the calendar when they're seated and qualified</li>
+            <li>Owns their home</li>
+            <li>Has both decision-makers ready</li>
+            <li>Is inside your service area</li>
+            <li>Is serious about a quality remodel — not a cheap quote</li>
           </ul>
+          <span class="pill pop">Customized to your ideal client</span>
+        </div>
+
+        <div class="funnel" style="grid-template-columns:1fr;gap:10px">
+          <div class="stage">
+            <div class="label">In</div>
+            <h4>Everyone who clicks</h4>
+            <p>All the traffic the ads bring in.</p>
+          </div>
+          <div class="stage">
+            <div class="label">Filter</div>
+            <h4>Qualifying questions</h4>
+            <p>Homeowner status, service area, scope &amp; timeline.</p>
+          </div>
+          <div class="stage">
+            <div class="label">Build trust</div>
+            <h4>Mini brand website</h4>
+            <p>Before/afters, reviews, your story &amp; warranty.</p>
+          </div>
+          <div class="stage">
+            <div class="label">Out</div>
+            <h4>Qualified &amp; ready</h4>
+            <p>Only serious homeowners reach your calendar.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 — PILLAR 3 : Homeowner Sales Team (the phone) -->
+  <section class="slide">
+    <div class="inner stack-lg">
+      <div class="step-hero">
+        <div class="step-num lg">3</div>
+        <div class="stack-sm">
+          <div class="meta">Pillar 03 · Homeowner Sales Team</div>
+          <h2 class="h-step">The faster you call,<br/>the more bathrooms you sell.</h2>
+        </div>
+      </div>
+
+      <div class="grid-2-uneven">
+        <div>
+          <div class="phone-wrap">
+            <div class="phone">
+              <div class="notch"></div>
+              <div class="phone-screen">
+                <div class="callui">
+                  <div>
+                    <div class="ct">New lead · calling now</div>
+                    <div class="timer">● Speed-to-lead 00:04:12</div>
+                  </div>
+                  <div class="cav">R</div>
+                  <div>
+                    <div class="cname">Your Brand</div>
+                    <div class="cstat">US-based appointment team</div>
+                    <div class="cbadge">Trained on your business — not a call center</div>
+                  </div>
+                  <div class="cactions">
+                    <div class="cbtn2 dec">✕</div>
+                    <div class="cbtn2 acc">📞</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="callcap">Called in under 5 minutes — every single lead.</div>
         </div>
 
         <div class="stack-md">
-          <div class="process">
-            <div class="p">
-              <div class="lab">00:00</div>
-              <div class="ti">Lead opt-in</div>
-              <div class="de">Form fires into our CRM with full enrichment.</div>
+          <div class="numgrid two">
+            <div class="n">
+              <span>Contact rate, 5 → 30 min</span>
+              <b class="mono-num">100×</b>
+              <p>How fast your odds of reaching a lead drop after they sign up (MIT study).</p>
             </div>
-            <div class="p">
-              <div class="lab">&lt;5 min</div>
-              <div class="ti">Setter dials</div>
-              <div class="de">Pitch the consult, qualify scope, confirm address.</div>
-            </div>
-            <div class="p">
-              <div class="lab">+10 min</div>
-              <div class="ti">Calendar lock</div>
-              <div class="de">Booked into your specific bookable windows only.</div>
-            </div>
-            <div class="p">
-              <div class="lab">+24h</div>
-              <div class="ti">Show-up cadence</div>
-              <div class="de">Auto SMS + email reminders, plus same-day call.</div>
+            <div class="n">
+              <span>Booked on 10th vs 3rd touch</span>
+              <b class="mono-num">+40%</b>
+              <p>Consistency wins — most teams quit following up far too early.</p>
             </div>
           </div>
+          <p class="body">Our US-based team calls, qualifies, and books every lead — and we train them on <b style="color:var(--ink)">your</b> business so they never sound offshore:</p>
+          <ul class="checklist">
+            <li>Your local landmarks &amp; service area</li>
+            <li>Your crews, installers &amp; process</li>
+            <li>What disqualifies a project</li>
+            <li>How to lock the appointment so it sticks</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
 
-          <div class="card">
-            <div class="label">Your time</div>
-            <h3 class="h-mid">~0 hours per week</h3>
-            <p class="body">No more reps chasing leads. Your team's job is to show up and close.</p>
+  <!-- 7 — PILLAR 4 : Backend Selling Systems -->
+  <section class="slide">
+    <div class="inner stack-lg">
+      <div class="step-hero">
+        <div class="step-num lg">4</div>
+        <div class="stack-sm">
+          <div class="meta">Pillar 04 · Backend Selling Systems</div>
+          <h2 class="h-step">They don't just show up —<br/>they show up ready to buy.</h2>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="stack-md">
+          <p class="lede">Most remodelers book the consult, fire off a couple of reminders, and hope. We systematically prep every homeowner to show and move forward.</p>
+          <div class="process two">
+            <div class="p">
+              <div class="lab">Step 1</div>
+              <div class="ti">Optimized thank-you page</div>
+              <div class="de">A pre-consultation video that builds trust before you arrive.</div>
+            </div>
+            <div class="p">
+              <div class="lab">Step 2</div>
+              <div class="ti">Educational videos</div>
+              <div class="de">Answer the most common questions &amp; objections up front.</div>
+            </div>
+            <div class="p">
+              <div class="lab">Step 3</div>
+              <div class="ti">Lead conditioning</div>
+              <div class="de">We feed the ads your best homeowners so they find more of them.</div>
+            </div>
+            <div class="p">
+              <div class="lab">Step 4</div>
+              <div class="ti">Indoctrination retargeting</div>
+              <div class="de">Educational follow-up content before they ever meet you.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="stack-md">
+          <div class="numgrid two">
+            <div class="n">
+              <span>Show rate</span>
+              <b class="mono-num">80%</b>
+              <p>vs. the ~60% industry average on paid leads.</p>
+            </div>
+            <div class="n">
+              <span>Close rate</span>
+              <b class="mono-num">50%+</b>
+              <p>vs. the ~20% industry average.</p>
+            </div>
+          </div>
+          <div class="card dark">
+            <div class="label">The result</div>
+            <h3 class="h-mid">More booked. More closed.</h3>
+            <p class="body">You're not just getting more appointments — you're getting homeowners who actually move forward on the project.</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 8b — NO-SHOW INTERACTIVE FLOW -->
+  <!-- 8 — PILLAR 5 : Scaling With Speed -->
+  <section class="slide">
+    <div class="inner stack-lg">
+      <div class="step-hero">
+        <div class="step-num lg">5</div>
+        <div class="stack-sm">
+          <div class="meta">Pillar 05 · Scaling With Speed</div>
+          <h2 class="h-step">Grow with mentorship + data —<br/>not guesswork.</h2>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="label">Mentorship</div>
+          <h3 class="h-mid">Learn from people who've done it</h3>
+          <p class="body">Direct access to operators who've built and scaled some of the largest remodeling companies in the country.</p>
+          <ul class="checklist">
+            <li>Proposal &amp; quoting frameworks</li>
+            <li>In-home sales scripts &amp; consultation techniques</li>
+            <li>Weekly 1-on-1 strategy with your strategist</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="label">Know your numbers</div>
+          <h3 class="h-mid">Track everything, A to Z</h3>
+          <p class="body">What doesn't get tracked can't be improved. We measure every step so you know exactly when it's time to grow.</p>
+          <ul class="checklist">
+            <li>Leads &amp; booked consultations</li>
+            <li>Show rate, no-shows &amp; close rate</li>
+            <li>Jobs won &amp; referral rate</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="pull">It's like a diet — if you never track it, you're guessing. We track everything, so you know exactly when to scale.</p>
+    </div>
+  </section>
+
+  <!-- 9 — ONBOARDING / NEXT STEPS -->
   <section class="slide">
     <div class="inner stack-lg">
       <div class="section-head">
         <div class="stack-sm">
-          <span class="eyebrow"><span class="dot"></span>The no-show guarantee, in action</span>
-          <h2 class="h-section">If they don't show, you don't pay.</h2>
+          <span class="eyebrow"><span class="dot"></span>How it starts</span>
+          <h2 class="h-section">Live in 7 days.<br/>Fully customized to you.</h2>
         </div>
         <div class="right body">
-          After every appointment, we send you a one-question email. Mark "No-show", confirm in one click, and a credit is applied automatically — no calls, no chasing. Try it below.
+          Once you're in, we send you a bit of intake homework — then connect you 1-on-1
+          with a specialist to map out your implementation pathway.
         </div>
-      </div>
-
-      <div class="nsflow">
-        <div class="email-card" id="nsEmail">
-          <div class="email-head">
-            <div class="email-from"><b>Rambitious Media</b><span>2 hrs ago</span></div>
-            <div class="email-subject">How did the appointment go?</div>
-          </div>
-          <div class="email-body">
-            <p>Hey — quick check-in on your <b>10:00 AM</b> appointment with <b>John D.</b> today.</p>
-            <p>Did they show up?</p>
-          </div>
-          <div class="email-buttons">
-            <button class="yes" onclick="nsShow()">✓ Showed up</button>
-            <button class="no" onclick="nsAskNoShow()">✕ No-show</button>
-          </div>
-        </div>
-
-        <div class="ns-modal" id="nsModalEl">
-          <div class="ns-modal-box">
-            <h3>Confirm no-show</h3>
-            <p>This will credit your account so your next seated appointment is free. We take this seriously — we eat the cost of the appointment.</p>
-            <label class="check">
-              <input type="checkbox" id="nsCheck" onchange="document.getElementById('nsConfirmBtn').disabled = !this.checked">
-              <span>I confirm that <b>John D.</b> did not attend the scheduled 10:00 AM appointment.</span>
-            </label>
-            <div class="actions">
-              <button class="cancel" onclick="nsCancel()">Cancel</button>
-              <button class="ok" id="nsConfirmBtn" disabled onclick="nsApplyCredit()">Apply credit</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="ns-result" id="nsCredited">
-          <div class="icn">✓</div>
-          <h3>Credit applied.</h3>
-          <p>Your next seated appointment is on us — no extra step required. We'll keep filling your calendar.</p>
-          <div class="stamp">+1 free seat credit · applied automatically</div>
-          <button class="reset" onclick="nsReset()">Try the other path</button>
-        </div>
-
-        <div class="ns-result billed" id="nsShown">
-          <div class="icn">$</div>
-          <h3>Appointment confirmed.</h3>
-          <p>The estimate is logged as seated. A single line-item charge has been added to this week's invoice.</p>
-          <div class="stamp">1 seated appointment · $300</div>
-          <button class="reset" onclick="nsReset()">Try the other path</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 12 — TIMING -->
-  <section class="slide">
-    <div class="inner stack-lg">
-      <div class="section-head">
-        <div class="stack-sm">
-          <span class="eyebrow"><span class="dot"></span>How fast this happens</span>
-          <h2 class="h-section">Live in 48 hours.<br/>First appointment 72–96 hours after that.</h2>
-        </div>
-        <div class="right body">That's the whole timeline. We move fast because we already know what works in your vertical.</div>
       </div>
 
       <div class="grid-2" style="margin-top:8px">
         <div class="card" style="padding:36px">
-          <div class="label">Within 48 hours</div>
-          <h3 style="font-size:clamp(32px,3.6vw,48px);font-weight:800;letter-spacing:-.025em;line-height:1.05;margin-top:6px">We launch your campaign.</h3>
-          <p class="body" style="margin-top:14px">Creative deployed. Funnel built. CRM routing live. Setters trained on your brief and your bookable windows.</p>
+          <div class="label">Within 7 days</div>
+          <h3 style="font-size:clamp(28px,3.2vw,42px);font-weight:800;letter-spacing:-.025em;line-height:1.05;margin-top:6px">Everything is built.</h3>
+          <p class="body" style="margin-top:14px">Ads, funnel, follow-up, tracking — all customized to your brand and your market. Nothing off-the-shelf.</p>
         </div>
         <div class="card" style="padding:36px;background:var(--ink);color:#fff;border-color:var(--ink)">
-          <div class="label" style="color:#cfcfcf">72–96 hours after launch</div>
-          <h3 style="font-size:clamp(32px,3.6vw,48px);font-weight:800;letter-spacing:-.025em;line-height:1.05;margin-top:6px;color:#fff">First seated appointment.</h3>
-          <p style="margin-top:14px;font-size:16px;line-height:1.6;color:#dcdcdc">A real homeowner sits with your estimator. No retainer drag, no slow ramp — straight to a calendar entry.</p>
+          <div class="label" style="color:#cfcfcf">Your 1-on-1 implementation call</div>
+          <h3 style="font-size:clamp(22px,2.2vw,30px);font-weight:800;letter-spacing:-.02em;line-height:1.1;margin-top:6px;color:#fff">We map your pathway.</h3>
+          <ul class="checklist" style="margin-top:14px">
+            <li style="color:#e8e8e8;border-color:rgba(255,255,255,.14)">Your exact 90-day game plan</li>
+            <li style="color:#e8e8e8;border-color:rgba(255,255,255,.14)">Structuring your offers &amp; remodel packages</li>
+            <li style="color:#e8e8e8;border-color:rgba(255,255,255,.14)">What we handle for you</li>
+            <li style="color:#e8e8e8;border-color:rgba(255,255,255,.14)">What we need from you</li>
+            <li style="color:#e8e8e8;border-color:rgba(255,255,255,.14)">How often we'll meet</li>
+          </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 13 — QUESTIONS / REVIEW -->
+  <!-- 10 — QUESTIONS -->
   <section class="slide">
     <div class="inner" style="text-align:center;max-width:880px">
       <span class="eyebrow" style="justify-content:center"><span class="dot"></span>Open floor</span>
       <h2 class="h-hero" style="margin-top:18px">Questions?</h2>
-      <p class="lede" style="margin:24px auto 0;text-align:center">How does everything sound so far? Anything you want me to dig into — the funnel, the setters, the math, the no-show credit, the timing?</p>
+      <p class="lede" style="margin:24px auto 0;text-align:center">How does everything sound so far? Anything you want me to dig into — the ad engine, the funnel, our sales team, show rates, or scaling?</p>
 
       <div class="row" style="justify-content:center;margin-top:28px">
-        <span class="pill">Funnel mechanics</span>
-        <span class="pill">In-house setting team</span>
-        <span class="pill">The math</span>
-        <span class="pill">No-show credit</span>
-        <span class="pill">Timing</span>
+        <span class="pill">The ad engine</span>
+        <span class="pill">The funnel</span>
+        <span class="pill">Our sales team</span>
+        <span class="pill">Show rates</span>
+        <span class="pill">Scaling</span>
         <span class="pill">Anything else</span>
       </div>
-    </div>
-  </section>
-
-  <!-- 5 — PRICING REVEAL -->
-  <section class="slide">
-    <div class="inner stack-lg">
-      <div class="section-head">
-        <div class="stack-sm">
-          <span class="eyebrow"><span class="dot"></span>The offer</span>
-          <h2 class="h-section">20 qualified estimates.<br/>Sitting in real homes.</h2>
-        </div>
-        <div class="right body">One number, everything included. You fund the media — we turn it into seated estimates.</div>
-      </div>
-
-      <div class="price-block">
-        <div class="price-card">
-          <div class="label">Your investment</div>
-          <div style="display:flex;align-items:flex-end;gap:14px">
-            <div class="big">$6,000</div>
-            <div class="sub" style="margin-bottom:16px">one-time<br/>· 20 estimates</div>
-          </div>
-          <p style="margin-top:10px;color:#dcdcdc;font-size:15px;line-height:1.6;max-width:48ch">
-            <b style="color:#fff">$6,000</b> for <b style="color:#fff">20 qualified, in-home estimates</b> — real homeowners sitting with your estimator. That's <b style="color:#fff">$300 a seat</b>. A no-show never counts against your 20 — it's credited, automatically.
-          </p>
-
-          <ul>
-            <li><span class="icn">✓</span> <span><b style="color:#fff">20 seated estimates, guaranteed.</b> We deliver the number.</span></li>
-            <li><span class="icn">✓</span> <span>No-show? Credited. It never counts against your 20.</span></li>
-            <li><span class="icn">✓</span> <span>You fund the media (~$100/day) — <b style="color:#fff">your capital, we manage every dollar.</b></span></li>
-            <li><span class="icn">✓</span> <span>You own the ad account and the data. Always.</span></li>
-            <li><span class="icn">✓</span> <span>No retainer. No long contract. No junk-lead incentive.</span></li>
-          </ul>
-        </div>
-
-        <div class="card soft" style="display:flex;flex-direction:column;justify-content:center">
-          <div class="label">What's included — the full stack</div>
-          <ul class="checklist" style="margin-top:14px">
-            <li>Unbranded ad-creative library, built for your trade — <b>$2,500</b></li>
-            <li>Custom funnel + landing pages — <b>$2,000</b></li>
-            <li>In-house setting team, speed-to-lead under 5 min — <b>$3,000</b></li>
-            <li>CRM, routing, reminders &amp; no-show automations — <b>$1,500</b></li>
-            <li>Daily campaign management &amp; optimization — <b>$2,000</b></li>
-            <li>No-show credit protection — <b>included</b></li>
-            <li>20 qualified seated estimates — <b>the deliverable</b></li>
-          </ul>
-          <div class="row" style="justify-content:space-between;margin-top:16px;border-top:1px solid var(--line);padding-top:14px">
-            <div><div class="small">Total value</div><div style="font-size:26px;font-weight:800;letter-spacing:-.02em;text-decoration:line-through;color:var(--ink-3)">$11,000+</div></div>
-            <div style="text-align:right"><div class="small">Your investment</div><div style="font-size:30px;font-weight:800;letter-spacing:-.02em;color:var(--ink)">$6,000</div></div>
-          </div>
-        </div>
-      </div>
-
-      <p class="pull" style="margin-top:14px">You're not buying leads. You're investing capital into growth — and we manage it for quality, not our survival.</p>
-    </div>
-  </section>
-
-  <!-- 14 — FINAL PRICING RECAP -->
-  <section class="slide">
-    <div class="inner stack-lg">
-      <div class="section-head">
-        <div class="stack-sm">
-          <span class="eyebrow"><span class="dot"></span>The deal, in plain English</span>
-          <h2 class="h-section">Here's how this works.</h2>
-        </div>
-        <div class="right body">One upfront for 20 guaranteed seated estimates. You fund the media; we manage it. No retainers, no long contracts.</div>
-      </div>
-
-      <div class="price-block" style="margin-top:8px">
-        <div class="price-card">
-          <div class="label">One-time</div>
-          <div style="display:flex;align-items:flex-end;gap:14px;margin-top:6px">
-            <div class="big">$6,000</div>
-            <div class="sub" style="margin-bottom:16px">upfront ·<br/>20 estimates</div>
-          </div>
-          <p style="margin-top:10px;color:#dcdcdc;font-size:15.5px;line-height:1.6;max-width:48ch">
-            Creative, funnel, CRM, setting team, optimization — the entire acquisition system — built and run to deliver <b style="color:#fff">20 qualified in-home estimates</b>. That's $300 a seat.
-          </p>
-
-          <ul>
-            <li><span class="icn">✓</span> <span><b style="color:#fff">20 qualified estimates — guaranteed.</b></span></li>
-            <li><span class="icn">✓</span> <span>You fund the media (~$100/day) — <b style="color:#fff">we manage every dollar of it.</b></span></li>
-            <li><span class="icn">✓</span> <span>No-show? Credited — it never counts against your 20.</span></li>
-          </ul>
-
-          <a href="#" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;margin-top:22px;padding:13px 22px;border-radius:999px;background:#fff;color:#0a0a0a;font-weight:700;font-size:14.5px;text-decoration:none">
-            Claim your spot →
-          </a>
-        </div>
-
-        <div class="stack-md">
-          <div class="card">
-            <div class="label">Per estimate</div>
-            <h3 style="font-size:36px;font-weight:800;letter-spacing:-.025em;margin-top:4px">$300 / seated estimate</h3>
-            <p class="body" style="margin-top:8px">20 of them, in real homes, in front of your closer. No-shows credited — they never count against your 20.</p>
-          </div>
-          <div class="card">
-            <div class="label">Why it's aligned</div>
-            <h3 class="h-card">Your capital. Our optimization.</h3>
-            <p class="body">You own the ad account and the data. We have zero incentive to push junk — only to turn your spend into quality sits.</p>
-          </div>
-        </div>
-      </div>
-
-      <p class="pull" style="margin-top:14px">$6,000 for 20 qualified estimates sat in real homes. You fund the growth — we manage every dollar of it for quality.</p>
-    </div>
-  </section>
-
-  <!-- 9 — UNIT ECONOMICS -->
-  <section class="slide">
-    <div class="inner stack-lg">
-      <div class="section-head">
-        <div class="stack-sm">
-          <span class="eyebrow"><span class="dot"></span>Unit economics</span>
-          <h2 class="h-section">The math, conservatively.</h2>
-        </div>
-        <div class="right body">
-          Assumes a $12k average ticket and a conservative 1-in-3 close rate on qualified, seated estimates. You fund ~$100/day in media; we deliver the 20 sits.
-        </div>
-      </div>
-
-      <div class="numgrid">
-        <div class="n"><span>Seated estimates</span><b class="mono-num">20</b><p>Guaranteed. No-shows never count.</p></div>
-        <div class="n"><span>Your fee</span><b class="mono-num">$6,000</b><p>$300 per seated estimate.</p></div>
-        <div class="n"><span>Media you fund</span><b class="mono-num">~$3,000</b><p>~$100/day — your acquisition capital.</p></div>
-        <div class="n"><span>All-in per estimate</span><b class="mono-num">~$450</b><p>Fee + media ÷ 20 sits.</p></div>
-        <div class="n"><span>Close rate (assumed)</span><b class="mono-num">33%</b><p>Conservative on qualified, seated estimates.</p></div>
-        <div class="n"><span>Jobs closed</span><b class="mono-num">~6–7</b><p>From your 20 seated estimates.</p></div>
-        <div class="n"><span>Gross profit / job</span><b class="mono-num">$4,800</b><p>$12k ticket at a 40% margin.</p></div>
-        <div class="n"><span>Net after all-in cost</span><b class="mono-num">~$23k</b><p>~$31.7k profit − ~$9k total cost.</p></div>
-      </div>
-
-      <p class="pull">You only need 2 of 20 to close to break even. We're handing you 20.</p>
     </div>
   </section>
 
@@ -1196,7 +1107,7 @@
     if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy)) go(idx + (dx < 0 ? 1 : -1));
   });
 
-  // Interactive system widget — tab switching
+  // Interactive system widget — map
   let leafMap = null;
   let mapInited = false;
 
@@ -1213,20 +1124,20 @@
       maxZoom:19, attribution:'© OSM'
     }).addTo(leafMap);
     const pins = [
-      {z:'33647',y:28.084,x:-82.348,ok:true,m:'$118k'},
-      {z:'33625',y:28.073,x:-82.560,ok:true,m:'$104k'},
-      {z:'33617',y:28.030,x:-82.380,ok:true,m:'$96k'},
-      {z:'33618',y:28.072,x:-82.485,ok:true,m:'$112k'},
-      {z:'33511',y:27.913,x:-82.301,ok:true,m:'$98k'},
-      {z:'33604',y:28.014,x:-82.461,ok:true,m:'$92k'},
-      {z:'33615',y:28.011,x:-82.586,ok:true,m:'$94k'},
-      {z:'33607',y:27.969,x:-82.508,ok:true,m:'$101k'},
-      {z:'33606',y:27.937,x:-82.473,ok:false,m:'$58k'},
-      {z:'33610',y:27.991,x:-82.401,ok:true,m:'$95k'},
-      {z:'33629',y:27.918,x:-82.512,ok:false,m:'$72k'},
-      {z:'33534',y:27.846,x:-82.376,ok:false,m:'$54k'},
-      {z:'33712',y:27.738,x:-82.685,ok:false,m:'$48k'},
-      {z:'33760',y:27.901,x:-82.722,ok:true,m:'$108k'},
+      {z:'33647',y:28.084,x:-82.348,ok:true},
+      {z:'33625',y:28.073,x:-82.560,ok:true},
+      {z:'33617',y:28.030,x:-82.380,ok:true},
+      {z:'33618',y:28.072,x:-82.485,ok:true},
+      {z:'33511',y:27.913,x:-82.301,ok:true},
+      {z:'33604',y:28.014,x:-82.461,ok:true},
+      {z:'33615',y:28.011,x:-82.586,ok:true},
+      {z:'33607',y:27.969,x:-82.508,ok:true},
+      {z:'33606',y:27.937,x:-82.473,ok:false},
+      {z:'33610',y:27.991,x:-82.401,ok:true},
+      {z:'33629',y:27.918,x:-82.512,ok:false},
+      {z:'33534',y:27.846,x:-82.376,ok:false},
+      {z:'33712',y:27.738,x:-82.685,ok:false},
+      {z:'33760',y:27.901,x:-82.722,ok:true},
     ];
     pins.forEach(p => {
       const icon = L.divIcon({
@@ -1235,7 +1146,7 @@
         iconSize: [54,20], iconAnchor: [27,10]
       });
       const m = L.marker([p.y, p.x], { icon }).addTo(leafMap);
-      m.bindPopup(`<b>${p.z}</b><br/>Median income: ${p.m}<br/>${p.ok?'<span style="color:#16a34a;font-weight:700">✓ Target zip</span>':'<span style="color:#dc2626;font-weight:700">✕ Excluded</span>'}`);
+      m.bindPopup(`<b>${p.z}</b><br/>${p.ok?'<span style="color:#16a34a;font-weight:700">✓ High-intent target area</span>':'<span style="color:#dc2626;font-weight:700">✕ Outside target</span>'}`);
     });
   }
 
@@ -1253,7 +1164,6 @@
       const step = t.dataset.step;
       tabs.forEach(x => x.classList.toggle('on', x === t));
       screens.forEach(s => s.classList.toggle('on', s.dataset.step === step));
-      // pause any videos when switching tabs
       root.querySelectorAll('video').forEach(v => { try{v.pause();}catch(e){} });
       if (step === '1') showMap();
     }));
@@ -1299,31 +1209,6 @@
       s.classList.add('on');
     });
   });
-
-  // showMap is hooked into go() above
-
-  // No-show flow
-  function nsAskNoShow(){
-    document.getElementById('nsModalEl').classList.add('on');
-  }
-  function nsCancel(){
-    document.getElementById('nsModalEl').classList.remove('on');
-    document.getElementById('nsCheck').checked = false;
-    document.getElementById('nsConfirmBtn').disabled = true;
-  }
-  function nsApplyCredit(){
-    document.getElementById('nsModalEl').classList.remove('on');
-    document.getElementById('nsCredited').classList.add('on');
-  }
-  function nsShow(){
-    document.getElementById('nsShown').classList.add('on');
-  }
-  function nsReset(){
-    document.getElementById('nsCredited').classList.remove('on');
-    document.getElementById('nsShown').classList.remove('on');
-    document.getElementById('nsCheck').checked = false;
-    document.getElementById('nsConfirmBtn').disabled = true;
-  }
 </script>
 </body>
 </html>
